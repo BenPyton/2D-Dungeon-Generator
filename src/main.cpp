@@ -4,17 +4,11 @@
 #include <string>
 #include "Core.h" // custom classes and functions (like Input, Button, etc.)
 #include "Grid.h"
+#include "Room.h"
 
 #define FRAMERATE 60
 
 using namespace std;
-
-
-bool isIn(sf::Vector2i rectPos, sf::Vector2i rectSize, sf::Vector2i cellPos)
-{
-	return cellPos.x >= rectPos.x && cellPos.x < rectPos.x + rectSize.x
-		&& cellPos.y >= rectPos.y && cellPos.y < rectPos.y + rectSize.y;
-}
 
 int main()
 {
@@ -49,8 +43,10 @@ int main()
 	sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
 	rect.setFillColor(lightGrey);
 
-	sf::Vector2i roomPos;
-	sf::Vector2i roomSize;
+	Room room;
+
+	/*sf::Vector2i roomPos;
+	sf::Vector2i roomSize;*/
 	sf::RectangleShape roomRect;
 	roomRect.setFillColor(sf::Color::Transparent);
 	roomRect.setOutlineColor(sf::Color::Green);
@@ -77,11 +73,16 @@ int main()
 		if (button.click())
 		{
 			cout << "Click !" << endl; 
-			roomPos = sf::Vector2i(Random::Range(0, grid.getWidth()), Random::Range(0, grid.getHeight()));
+			/*roomPos = sf::Vector2i(Random::Range(0, grid.getWidth()), Random::Range(0, grid.getHeight()));
 			roomSize = sf::Vector2i(Random::Range(1, grid.getWidth() - roomPos.x), Random::Range(1, grid.getHeight() - roomPos.y));
+*/
+			room.setX(Random::Range(0, grid.getWidth()));
+			room.setY(Random::Range(0, grid.getHeight()));
+			room.setWidth(Random::Range(1, grid.getWidth() - room.getX()));
+			room.setHeight(Random::Range(1, grid.getHeight() - room.getY()));
 
-			roomRect.setPosition(grid.gridToScreen(roomPos));
-			roomRect.setSize(grid.gridToScreen(roomSize) - grid.getPosition());
+			roomRect.setPosition(grid.gridToScreen(sf::Vector2i(room.getX(), room.getY())));
+			roomRect.setSize(grid.gridToScreen(sf::Vector2i(room.getWidth(), room.getHeight())) - grid.getPosition());
 		}
 
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
@@ -94,7 +95,7 @@ int main()
 		//rect.setPosition(grid.getPosition() + sf::Vector2f(cell.x * (sf::Int32)grid.getCellWidth(), cell.y * (sf::Int32)grid.getCellHeight()));
 		rect.setPosition((grid.isIn(cell)) ? grid.gridToScreen(cell) : sf::Vector2f(-1000, -1000));
 
-		rect.setFillColor(isIn(roomPos, roomSize, cell) ? sf::Color::Red : lightGrey);
+		rect.setFillColor(room.isIn(cell.x, cell.y) ? sf::Color::Red : lightGrey);
 
 
 		// ///////////////////////// START DRAW
