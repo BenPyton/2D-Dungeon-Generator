@@ -5,10 +5,13 @@
 #include "Core.h" // custom classes and functions (like Input, Button, etc.)
 #include "Grid.h"
 #include "Room.h"
+#include "RoomRenderer.h"
 
 #define FRAMERATE 60
 
 using namespace std;
+
+
 
 int main()
 {
@@ -43,16 +46,10 @@ int main()
 	sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
 	rect.setFillColor(lightGrey);
 
-	Room room;
-
-	/*sf::Vector2i roomPos;
-	sf::Vector2i roomSize;*/
-	sf::RectangleShape roomRect;
-	roomRect.setFillColor(sf::Color::Transparent);
-	roomRect.setOutlineColor(sf::Color::Green);
-	/*roomRect.setPosition(roomPos);
-	roomRect.setSize(roomSize);*/
-	roomRect.setOutlineThickness(1.0f);
+	Room roomA, roomB;
+	RoomRenderer rendererA(&grid, &roomA), rendererB(&grid, &roomB);
+	rendererA.setColor(sf::Color::Green);
+	rendererB.setColor(sf::Color::Green);
 
 	// ///////////////////////////// APPLICATION LOOP
 	while (window.isOpen())
@@ -73,30 +70,37 @@ int main()
 		if (button.click())
 		{
 			cout << "Click !" << endl; 
-			/*roomPos = sf::Vector2i(Random::Range(0, grid.getWidth()), Random::Range(0, grid.getHeight()));
-			roomSize = sf::Vector2i(Random::Range(1, grid.getWidth() - roomPos.x), Random::Range(1, grid.getHeight() - roomPos.y));
-*/
-			room.setX(Random::Range(0, grid.getWidth()));
-			room.setY(Random::Range(0, grid.getHeight()));
-			room.setWidth(Random::Range(1, grid.getWidth() - room.getX()));
-			room.setHeight(Random::Range(1, grid.getHeight() - room.getY()));
 
-			roomRect.setPosition(grid.gridToScreen(sf::Vector2i(room.getX(), room.getY())));
-			roomRect.setSize(grid.gridToScreen(sf::Vector2i(room.getWidth(), room.getHeight())) - grid.getPosition());
+			roomA.setX(0);
+			roomA.setY(0);
+			roomA.setWidth(Random::Range(1, grid.getWidth()));
+			roomA.setHeight(grid.getHeight());
+
+			int split = Random::Range(1, roomA.getHeight());
+			roomB.setX(roomA.getX());
+			roomB.setY(roomA.getY() + split);
+			roomB.setWidth(roomA.getWidth());
+			roomB.setHeight(roomA.getHeight() - split);
+
+			roomA.setHeight(grid.getHeight() - roomB.getHeight());
 		}
 
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
 		{
 			sf::Vector2f mousePos = Input::GetMousePosition();
-			cout << "Mouse position: (" << mousePos.x << "," << mousePos.y << ")" << endl;
+			//cout << "Mouse position: (" << mousePos.x << "," << mousePos.y << ")" << endl;
 		}
 
 		sf::Vector2i cell = grid.screenToGrid(Input::GetMousePosition());
 		//rect.setPosition(grid.getPosition() + sf::Vector2f(cell.x * (sf::Int32)grid.getCellWidth(), cell.y * (sf::Int32)grid.getCellHeight()));
 		rect.setPosition((grid.isIn(cell)) ? grid.gridToScreen(cell) : sf::Vector2f(-1000, -1000));
 
-		rect.setFillColor(room.isIn(cell.x, cell.y) ? sf::Color::Red : lightGrey);
+		rect.setFillColor(roomA.isIn(cell.x, cell.y) ? sf::Color::Red : lightGrey);
 
+
+		// ///////////////////////// RENDERER UPDATES
+		rendererA.update();
+		rendererB.update();
 
 		// ///////////////////////// START DRAW
 		window.clear();
@@ -108,7 +112,8 @@ int main()
 
 		window.draw(rect);
 
-		window.draw(roomRect);
+		window.draw(rendererA);
+		window.draw(rendererB);
 
 		// ///////////////////////// END DRAW
 		window.display();
