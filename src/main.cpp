@@ -36,12 +36,21 @@ int main()
 	fpsText.setColor(lightGrey);
 
 	// Button Example
-	Button button(size.x - 161, 10, 151, 30);
+	Button button(size.x - 160, 10, 150, 30);
 	button.setText("Generate", font, 16);
 	button.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
 	button.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
 	button.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
 	button.setOutlineThickness(1.0f);
+
+
+	// Button Example
+	Toggle btn_showParents(size.x - 320, 10, 150, 30);
+	btn_showParents.setText("Show Parents", font, 16);
+	btn_showParents.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
+	btn_showParents.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
+	btn_showParents.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
+	btn_showParents.setOutlineThickness(1.0f);
 
 	Grid grid(32, 32, 20, 20, darkGrey);
 	grid.setPosition(sf::Vector2f(50, 50));
@@ -51,9 +60,7 @@ int main()
 
 	Dungeon dungeon(grid.getWidth(), grid.getHeight());
 
-	// render dungeon rooms in SFML
-	/*vector<RoomRenderer> rendererList;
-	vector<sf::RectangleShape> cellList;*/
+	// render dungeon in SFML
 	DungeonRenderer renderer(&dungeon, &grid);
 	renderer.setFont(font);
 
@@ -64,6 +71,7 @@ int main()
 		Input::Update(window);
 
 		button.update(); // buttons must be updated before using them
+		btn_showParents.update(); // buttons must be updated before using them
 
 		// ///////////////////////// GAME LOGIC
 		if (Input::GetKeyDown(sf::Keyboard::Escape))
@@ -79,32 +87,11 @@ int main()
 
 			dungeon.generate(5);
 			renderer.generate();
+		}
 
-			//// create corresponding renderer
-			//rendererList.clear();
-			//for (int i = 0; i < dungeon.getRoomCount(); i++)
-			//{
-			//	rendererList.push_back(RoomRenderer(&grid, dungeon.getRoomAt(i)));
-			//	rendererList[i].setFont(font);
-			//	rendererList[i].displayId(true);
-			//	rendererList[i].displayParent(true);
-			//}
-
-			//// create corresponding cell rectangle
-			//cellList.clear();
-			//for (int i = 0; i < dungeon.getWidth(); i++)
-			//{
-			//	for (int j = 0; j < dungeon.getHeight(); j++)
-			//	{
-			//		if (dungeon.getValue(i, j) == 1)
-			//		{
-			//			sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
-			//			rect.setFillColor(sf::Color::White);
-			//			rect.setPosition(grid.gridToScreen(sf::Vector2i(i, j)));
-			//			cellList.push_back(rect);
-			//		}
-			//	}
-			//}
+		if (btn_showParents.click())
+		{
+			renderer.displayParents(btn_showParents.getChecked());
 		}
 
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
@@ -117,13 +104,6 @@ int main()
 		rect.setPosition((grid.isIn(cell)) ? grid.gridToScreen(cell) : sf::Vector2f(-1000, -1000));
 
 		// ///////////////////////// RENDERER UPDATES
-
-		/*for (int i = 0; i < rendererList.size(); i++)
-		{
-			rendererList[i].setColor(dungeon.getRoomAt(i)->isIn(cell.x, cell.y) ? sf::Color::Red : sf::Color::White);
-			rendererList[i].update();
-		}*/
-
 		renderer.update();
 
 		// ///////////////////////// START DRAW
@@ -131,22 +111,13 @@ int main()
 
 		window.draw(fpsText);
 		window.draw(button);
+		window.draw(btn_showParents);
 
 		window.draw(grid);
 
 		window.draw(rect);
 
-
 		window.draw(renderer);
-		/*for (int i = 0; i < cellList.size(); i++)
-		{
-			window.draw(cellList[i]);
-		}
-
-		for (int i = 0; i < rendererList.size(); i++)
-		{
-			window.draw(rendererList[i]);
-		}*/
 
 		// ///////////////////////// END DRAW
 		window.display();

@@ -28,7 +28,7 @@ private:
 	vector<RoomRenderer> m_rendererList;
 	vector<sf::RectangleShape> m_cellList;
 	sf::Font* m_pFont;
-
+	bool m_displayParents;
 
 protected:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -44,6 +44,8 @@ public:
 	inline Grid* getGrid() { return m_pGrid; }
 
 	inline void setFont(sf::Font& font) { m_pFont = &font; }
+
+	void displayParents(bool enable);
 
 	void update();
 
