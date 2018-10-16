@@ -2,10 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Core.h" // custom classes and functions (like Input, Button, etc.)
 #include "Grid.h"
 #include "Room.h"
 #include "RoomRenderer.h"
+#include "Dungeon.h"
 
 #define FRAMERATE 60
 
@@ -46,10 +48,9 @@ int main()
 	sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
 	rect.setFillColor(lightGrey);
 
-	Room roomA, roomB;
-	RoomRenderer rendererA(&grid, &roomA), rendererB(&grid, &roomB);
-	rendererA.setColor(sf::Color::Green);
-	rendererB.setColor(sf::Color::Green);
+	Dungeon dungeon;
+	dungeon.setGrid(&grid);
+
 
 	// ///////////////////////////// APPLICATION LOOP
 	while (window.isOpen())
@@ -71,18 +72,8 @@ int main()
 		{
 			cout << "Click !" << endl; 
 
-			roomA.setX(0);
-			roomA.setY(0);
-			roomA.setWidth(Random::Range(1, grid.getWidth()));
-			roomA.setHeight(grid.getHeight());
+			dungeon.generate(5);
 
-			int split = Random::Range(1, roomA.getHeight());
-			roomB.setX(roomA.getX());
-			roomB.setY(roomA.getY() + split);
-			roomB.setWidth(roomA.getWidth());
-			roomB.setHeight(roomA.getHeight() - split);
-
-			roomA.setHeight(grid.getHeight() - roomB.getHeight());
 		}
 
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
@@ -92,15 +83,10 @@ int main()
 		}
 
 		sf::Vector2i cell = grid.screenToGrid(Input::GetMousePosition());
-		//rect.setPosition(grid.getPosition() + sf::Vector2f(cell.x * (sf::Int32)grid.getCellWidth(), cell.y * (sf::Int32)grid.getCellHeight()));
 		rect.setPosition((grid.isIn(cell)) ? grid.gridToScreen(cell) : sf::Vector2f(-1000, -1000));
 
-		rect.setFillColor(roomA.isIn(cell.x, cell.y) ? sf::Color::Red : lightGrey);
-
-
 		// ///////////////////////// RENDERER UPDATES
-		rendererA.update();
-		rendererB.update();
+		dungeon.update();
 
 		// ///////////////////////// START DRAW
 		window.clear();
@@ -112,8 +98,7 @@ int main()
 
 		window.draw(rect);
 
-		window.draw(rendererA);
-		window.draw(rendererB);
+		window.draw(dungeon);
 
 		// ///////////////////////// END DRAW
 		window.display();

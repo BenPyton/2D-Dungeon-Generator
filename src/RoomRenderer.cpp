@@ -41,6 +41,7 @@ void RoomRenderer::update()
 	{
 		m_rect.setPosition(m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX(), m_pRoom->getY())));
 		m_rect.setSize(m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getWidth(), m_pRoom->getHeight())) - m_pGrid->getPosition());
+		m_idText.setPosition(m_rect.getPosition() + sf::Vector2f(5, 5));
 	}
 }
 
