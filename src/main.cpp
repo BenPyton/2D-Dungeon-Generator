@@ -8,6 +8,7 @@
 #include "Room.h"
 #include "RoomRenderer.h"
 #include "Dungeon.h"
+#include "DungeonRenderer.h"
 
 #define FRAMERATE 60
 
@@ -51,9 +52,10 @@ int main()
 	Dungeon dungeon(grid.getWidth(), grid.getHeight());
 
 	// render dungeon rooms in SFML
-	vector<RoomRenderer> rendererList;
-	vector<sf::RectangleShape> cellList;
-
+	/*vector<RoomRenderer> rendererList;
+	vector<sf::RectangleShape> cellList;*/
+	DungeonRenderer renderer(&dungeon, &grid);
+	renderer.setFont(font);
 
 	// ///////////////////////////// APPLICATION LOOP
 	while (window.isOpen())
@@ -76,32 +78,33 @@ int main()
 			cout << "Click !" << endl; 
 
 			dungeon.generate(5);
+			renderer.generate();
 
-			// create corresponding renderer
-			rendererList.clear();
-			for (int i = 0; i < dungeon.getRoomCount(); i++)
-			{
-				rendererList.push_back(RoomRenderer(&grid, dungeon.getRoomAt(i)));
-				rendererList[i].setFont(font);
-				rendererList[i].displayId(true);
-				rendererList[i].displayParent(true);
-			}
+			//// create corresponding renderer
+			//rendererList.clear();
+			//for (int i = 0; i < dungeon.getRoomCount(); i++)
+			//{
+			//	rendererList.push_back(RoomRenderer(&grid, dungeon.getRoomAt(i)));
+			//	rendererList[i].setFont(font);
+			//	rendererList[i].displayId(true);
+			//	rendererList[i].displayParent(true);
+			//}
 
-			// create corresponding cell rectangle
-			cellList.clear();
-			for (int i = 0; i < dungeon.getWidth(); i++)
-			{
-				for (int j = 0; j < dungeon.getHeight(); j++)
-				{
-					if (dungeon.getValue(i, j) == 1)
-					{
-						sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
-						rect.setFillColor(sf::Color::White);
-						rect.setPosition(grid.gridToScreen(sf::Vector2i(i, j)));
-						cellList.push_back(rect);
-					}
-				}
-			}
+			//// create corresponding cell rectangle
+			//cellList.clear();
+			//for (int i = 0; i < dungeon.getWidth(); i++)
+			//{
+			//	for (int j = 0; j < dungeon.getHeight(); j++)
+			//	{
+			//		if (dungeon.getValue(i, j) == 1)
+			//		{
+			//			sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
+			//			rect.setFillColor(sf::Color::White);
+			//			rect.setPosition(grid.gridToScreen(sf::Vector2i(i, j)));
+			//			cellList.push_back(rect);
+			//		}
+			//	}
+			//}
 		}
 
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
@@ -115,11 +118,13 @@ int main()
 
 		// ///////////////////////// RENDERER UPDATES
 
-		for (int i = 0; i < rendererList.size(); i++)
+		/*for (int i = 0; i < rendererList.size(); i++)
 		{
 			rendererList[i].setColor(dungeon.getRoomAt(i)->isIn(cell.x, cell.y) ? sf::Color::Red : sf::Color::White);
 			rendererList[i].update();
-		}
+		}*/
+
+		renderer.update();
 
 		// ///////////////////////// START DRAW
 		window.clear();
@@ -131,7 +136,9 @@ int main()
 
 		window.draw(rect);
 
-		for (int i = 0; i < cellList.size(); i++)
+
+		window.draw(renderer);
+		/*for (int i = 0; i < cellList.size(); i++)
 		{
 			window.draw(cellList[i]);
 		}
@@ -139,7 +146,7 @@ int main()
 		for (int i = 0; i < rendererList.size(); i++)
 		{
 			window.draw(rendererList[i]);
-		}
+		}*/
 
 		// ///////////////////////// END DRAW
 		window.display();

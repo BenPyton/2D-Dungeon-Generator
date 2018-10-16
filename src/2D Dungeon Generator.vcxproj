@@ -171,6 +171,7 @@
     <ClInclude Include="Core\Toggle.h" />
     <ClInclude Include="Core\Utils.h" />
     <ClInclude Include="Dungeon.h" />
+    <ClInclude Include="DungeonRenderer.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="RoomRenderer.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Core\Toggle.cpp" />
     <ClCompile Include="Core\Utils.cpp" />
     <ClCompile Include="Dungeon.cpp" />
+    <ClCompile Include="DungeonRenderer.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomRenderer.cpp" />
