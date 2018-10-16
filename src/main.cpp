@@ -49,7 +49,7 @@ int main()
 	rect.setFillColor(lightGrey);
 
 	Dungeon dungeon;
-	dungeon.setGrid(&grid);
+	//dungeon.setGrid(&grid);
 
 	// render dungeon rooms in SFML
 	vector<RoomRenderer> rendererList;
@@ -75,7 +75,7 @@ int main()
 		{
 			cout << "Click !" << endl; 
 
-			dungeon.generate(5);
+			dungeon.generate(grid.getWidth(), grid.getHeight(), 5);
 
 			// create corresponding renderer
 			rendererList.clear();

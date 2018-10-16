@@ -34,17 +34,15 @@ Dungeon::~Dungeon()
 	_Clear();
 }
 
-void Dungeon::generate(int iteration)
+void Dungeon::generate(uint64_t width, uint64_t height, int iteration)
 {
-	if (nullptr == m_pGrid) return;
-
 	bool vertical = true;
 	int splitX = 0, splitY = 0;
 	
 	_Clear();
 
 	// create root room
-	m_roomList.push_back(new Room(0, 0, m_pGrid->getWidth(), m_pGrid->getHeight()));
+	m_roomList.push_back(new Room(0, 0, width, height));
 
 	for (int i = 0; i < iteration; i++)
 	{
