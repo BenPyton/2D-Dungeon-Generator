@@ -15,6 +15,18 @@
 Room::Room(int x, int y, int w, int h)
 	: m_x(x), m_y(y), m_w(w), m_h(h)
 {
+	m_id = 0;
+	m_pParent = nullptr;
+}
+
+Room::Room(const Room & _r)
+{
+	m_id = _r.m_id;
+	m_x = _r.m_x;
+	m_y = _r.m_y;
+	m_w = _r.m_w;
+	m_h = _r.m_h;
+	m_pParent = _r.m_pParent;
 }
 
 Room::~Room()

@@ -15,21 +15,18 @@
 #include <iostream>
 #include <vector>
 #include "Room.h"
-#include "RoomRenderer.h"
 #include "Grid.h"
 
 using namespace std;
 
-class Dungeon : public sf::Drawable
+class Dungeon
 {
 private:
-	vector<Room> m_roomList;
-	vector<RoomRenderer> m_rendererList;
-
+	vector<Room*> m_roomList;
 	Grid* m_pGrid;
 
-protected:
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+private:
+	void _Clear();
 
 public:
 	Dungeon();
@@ -38,9 +35,10 @@ public:
 	inline void setGrid(Grid* grid) { m_pGrid = grid; }
 	inline Grid* getGrid() { return m_pGrid; }
 
-	void generate(int iteration);
+	inline size_t getRoomCount() { return m_roomList.size(); }
+	inline Room* getRoomAt(int index) { return m_roomList[index]; }
 
-	void update();
+	void generate(int iteration);
 };
 
 #endif // _DUNGEON_H

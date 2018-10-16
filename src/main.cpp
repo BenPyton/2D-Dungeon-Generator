@@ -51,6 +51,9 @@ int main()
 	Dungeon dungeon;
 	dungeon.setGrid(&grid);
 
+	// render dungeon rooms in SFML
+	vector<RoomRenderer> rendererList;
+
 
 	// ///////////////////////////// APPLICATION LOOP
 	while (window.isOpen())
@@ -68,12 +71,21 @@ int main()
 
 		fpsText.setString("FPS: " + floatToStr(Time::GetFps(), 0));
 
-		if (button.click())
+		if (button.click() || Input::GetKeyDown(sf::Keyboard::G))
 		{
 			cout << "Click !" << endl; 
 
 			dungeon.generate(5);
 
+			// create corresponding renderer
+			rendererList.clear();
+			for (int i = 0; i < dungeon.getRoomCount(); i++)
+			{
+				rendererList.push_back(RoomRenderer(&grid, dungeon.getRoomAt(i)));
+				rendererList[i].setFont(font);
+				rendererList[i].displayId(true);
+				rendererList[i].displayParent(true);
+			}
 		}
 
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
@@ -86,7 +98,12 @@ int main()
 		rect.setPosition((grid.isIn(cell)) ? grid.gridToScreen(cell) : sf::Vector2f(-1000, -1000));
 
 		// ///////////////////////// RENDERER UPDATES
-		dungeon.update();
+
+		for (int i = 0; i < rendererList.size(); i++)
+		{
+			rendererList[i].setColor(dungeon.getRoomAt(i)->isIn(cell.x, cell.y) ? sf::Color::Red : sf::Color::White);
+			rendererList[i].update();
+		}
 
 		// ///////////////////////// START DRAW
 		window.clear();
@@ -98,7 +115,12 @@ int main()
 
 		window.draw(rect);
 
-		window.draw(dungeon);
+		//window.draw(dungeon);
+
+		for (int i = 0; i < rendererList.size(); i++)
+		{
+			window.draw(rendererList[i]);
+		}
 
 		// ///////////////////////// END DRAW
 		window.display();
