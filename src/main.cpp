@@ -48,11 +48,11 @@ int main()
 	sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
 	rect.setFillColor(lightGrey);
 
-	Dungeon dungeon;
-	//dungeon.setGrid(&grid);
+	Dungeon dungeon(grid.getWidth(), grid.getHeight());
 
 	// render dungeon rooms in SFML
 	vector<RoomRenderer> rendererList;
+	vector<sf::RectangleShape> cellList;
 
 
 	// ///////////////////////////// APPLICATION LOOP
@@ -75,7 +75,7 @@ int main()
 		{
 			cout << "Click !" << endl; 
 
-			dungeon.generate(grid.getWidth(), grid.getHeight(), 5);
+			dungeon.generate(5);
 
 			// create corresponding renderer
 			rendererList.clear();
@@ -85,6 +85,22 @@ int main()
 				rendererList[i].setFont(font);
 				rendererList[i].displayId(true);
 				rendererList[i].displayParent(true);
+			}
+
+			// create corresponding cell rectangle
+			cellList.clear();
+			for (int i = 0; i < dungeon.getWidth(); i++)
+			{
+				for (int j = 0; j < dungeon.getHeight(); j++)
+				{
+					if (dungeon.getValue(i, j) == 1)
+					{
+						sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
+						rect.setFillColor(sf::Color::White);
+						rect.setPosition(grid.gridToScreen(sf::Vector2i(i, j)));
+						cellList.push_back(rect);
+					}
+				}
 			}
 		}
 
@@ -115,7 +131,10 @@ int main()
 
 		window.draw(rect);
 
-		//window.draw(dungeon);
+		for (int i = 0; i < cellList.size(); i++)
+		{
+			window.draw(cellList[i]);
+		}
 
 		for (int i = 0; i < rendererList.size(); i++)
 		{
