@@ -39,6 +39,10 @@ void RoomRenderer::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 		{
 			target.draw(m_neighborsLink, states);
 		}
+		if (m_enableLinks)
+		{
+			target.draw(m_links, states);
+		}
 	}
 
 }
@@ -60,10 +64,12 @@ RoomRenderer::RoomRenderer(Grid* grid, Room* room)
 	m_parentLink.setPrimitiveType(sf::PrimitiveType::Lines);
 
 	m_neighborsLink.setPrimitiveType(sf::PrimitiveType::Lines);
+	m_links.setPrimitiveType(sf::PrimitiveType::Lines);
 
 	m_enableId = false;
 	m_enableParent = false;
 	m_enableNeighbors = false;
+	m_enableLinks = false;
 }
 
 RoomRenderer::~RoomRenderer()
@@ -94,6 +100,13 @@ void RoomRenderer::update()
 		{
 			m_neighborsLink.append(sf::Vertex(0.5f * (m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX(), m_pRoom->getY())) + m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX() + m_pRoom->getWidth(), m_pRoom->getY() + m_pRoom->getHeight()))), sf::Color::Cyan));
 			m_neighborsLink.append(sf::Vertex(0.5f * (m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getNeighbor(i)->getX(), m_pRoom->getNeighbor(i)->getY())) + m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getNeighbor(i)->getX() + m_pRoom->getNeighbor(i)->getWidth(), m_pRoom->getNeighbor(i)->getY() + m_pRoom->getNeighbor(i)->getHeight()))), sf::Color::Cyan));
+		}
+
+		m_links.clear();
+		for (size_t i = 0; i < m_pRoom->getLinkCount(); i++)
+		{
+			m_links.append(sf::Vertex(0.5f * (m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX(), m_pRoom->getY())) + m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX() + m_pRoom->getWidth(), m_pRoom->getY() + m_pRoom->getHeight()))), sf::Color::Green));
+			m_links.append(sf::Vertex(0.5f * (m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getLink(i)->getX(), m_pRoom->getLink(i)->getY())) + m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getLink(i)->getX() + m_pRoom->getLink(i)->getWidth(), m_pRoom->getLink(i)->getY() + m_pRoom->getLink(i)->getHeight()))), sf::Color::Green));
 		}
 	}
 }

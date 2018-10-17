@@ -40,6 +40,31 @@ Room * Room::getNeighbor(int index)
 	return m_neighbors[index];
 }
 
+void Room::addLink(Room * room)
+{
+	bool isLinked = false;
+	// search for an existing link with this room
+	for (vector<Room*>::iterator it = m_links.begin(); it != m_links.end(); ++it)
+	{
+		if (*it == room)
+		{
+			isLinked = true;
+		}
+	}
+
+	// add linked if not yet
+	if (!isLinked)
+	{
+		m_links.push_back(room);
+	}
+}
+
+Room * Room::getLink(int index)
+{
+	assert(index >= 0 && index < m_links.size());
+	return m_links[index];
+}
+
 bool Room::isIn(int x, int y)
 {
 	return x >= m_x && x < m_x + m_w

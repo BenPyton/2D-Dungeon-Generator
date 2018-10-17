@@ -18,7 +18,7 @@ using namespace std;
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(740, 740), "2D Dungeon Generator");
+	sf::RenderWindow window(sf::VideoMode(900, 740), "2D Dungeon Generator");
 	sf::Vector2u size = window.getSize();
 
 	// Load font
@@ -44,7 +44,7 @@ int main()
 	button.setOutlineThickness(1.0f);
 
 	// Button Show parents
-	Toggle btn_showParents(size.x - 320, 10, 150, 30);
+	Toggle btn_showParents(size.x - 160, 50, 150, 30);
 	btn_showParents.setText("Show Parents", font, 16);
 	btn_showParents.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
 	btn_showParents.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
@@ -52,15 +52,24 @@ int main()
 	btn_showParents.setOutlineThickness(1.0f);
 
 	// Button Show neighbors
-	Toggle btn_showNeighbors(size.x - 480, 10, 150, 30);
+	Toggle btn_showNeighbors(size.x - 160, 90, 150, 30);
 	btn_showNeighbors.setText("Show Neighbors", font, 16);
 	btn_showNeighbors.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
 	btn_showNeighbors.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
 	btn_showNeighbors.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
 	btn_showNeighbors.setOutlineThickness(1.0f);
 
+
 	// Button Show values
-	Toggle btn_showValues(size.x - 640, 10, 150, 30);
+	Toggle btn_showLinks(size.x - 160, 130, 150, 30);
+	btn_showLinks.setText("Show Links", font, 16);
+	btn_showLinks.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
+	btn_showLinks.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
+	btn_showLinks.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
+	btn_showLinks.setOutlineThickness(1.0f);
+
+	// Button Show values
+	Toggle btn_showValues(size.x - 160, 170, 150, 30);
 	btn_showValues.setText("Show Values", font, 16);
 	btn_showValues.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
 	btn_showValues.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
@@ -89,6 +98,7 @@ int main()
 		btn_showParents.update();
 		btn_showNeighbors.update();
 		btn_showValues.update();
+		btn_showLinks.update();
 
 		// ///////////////////////// GAME LOGIC
 		if (Input::GetKeyDown(sf::Keyboard::Escape))
@@ -121,6 +131,11 @@ int main()
 			renderer.displayValues(btn_showValues.getChecked());
 		}
 
+		if (btn_showLinks.click())
+		{
+			renderer.displayLinks(btn_showLinks.getChecked());
+		}
+
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
 		{
 			sf::Vector2f mousePos = Input::GetMousePosition();
@@ -141,6 +156,7 @@ int main()
 		window.draw(btn_showNeighbors);
 		window.draw(btn_showValues);
 		window.draw(btn_showParents);
+		window.draw(btn_showLinks);
 
 		window.draw(grid);
 

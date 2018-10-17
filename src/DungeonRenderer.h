@@ -31,6 +31,7 @@ private:
 	bool m_displayParents;
 	bool m_displayNeighbors;
 	bool m_displayValues;
+	bool m_displayLinks;
 
 protected:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -50,6 +51,7 @@ public:
 	void displayParents(bool enable);
 	void displayNeighbors(bool enable);
 	inline void displayValues(bool enable) { m_displayValues = enable; }
+	void displayLinks(bool enable);
 
 	void update();
 

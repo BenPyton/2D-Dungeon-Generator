@@ -27,6 +27,21 @@ Dungeon::~Dungeon()
 	_ClearArray();
 }
 
+Room * Dungeon::getRoomAt(uint64_t x, uint64_t y)
+{
+	Room* room = nullptr;
+	for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
+	{
+		if ((*it)->isIn(x, y))
+		{
+			room = *it;
+			break;
+		}
+	}
+
+	return room;
+}
+
 void Dungeon::setSize(uint64_t width, uint64_t height)
 {
 	_ClearArray();
@@ -170,25 +185,79 @@ void Dungeon::_FillArray()
 
 			for (int i = 0; i < room->getHeight(); i++)
 			{
-				m_array[room->getY() + i][room->getX()] = 1;
+				m_array[room->getY() + i][room->getX()] = TileType::Wall;
 			}
 
 			for (int i = 0; i < room->getWidth(); i++)
 			{
-				m_array[room->getY()][room->getX() + i] = 1;
+				m_array[room->getY()][room->getX() + i] = TileType::Wall;
 			}
 
 			for (int i = 0; i < m_height; i++)
 			{
-				m_array[i][m_width - 1] = 1;
+				m_array[i][m_width - 1] = TileType::Wall;
 			}
 
 			for (int i = 0; i < m_width; i++)
 			{
-				m_array[m_height - 1][i] = 1;
+				m_array[m_height - 1][i] = TileType::Wall;
 			}
 		}
 
+
+		// Place doors
+		for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
+		{
+			Room* room = *it;
+			bool vertical = false;
+			bool horizontal = false;
+			int n = 0;
+
+			if (room->getX() != 0 || room->getY() != 0)
+			{
+				int nbDoor = 1; // Random::Range(1, 3);
+				for (int k = 0; k < nbDoor; k++)
+				{
+					if (room->getX() == 0) // only horizontal wall
+					{
+						vertical = false;
+						horizontal = true;
+					}
+					else if (room->getY() == 0) // only vertical wall
+					{
+						vertical = true;
+						horizontal = false;
+					}
+					else // choose randomly vertical or horizontal wall
+					{
+						vertical = Random::Range(0, 2) == 0;
+						horizontal = !vertical || Random::Range(0, 2) == 0;
+					}
+
+
+					if (vertical) 
+					{
+						do {
+							n = room->getY() + Random::Range(1, (room->getY() + room->getHeight() == m_height) ? room->getHeight() - 1 : room->getHeight());
+						} while (m_array[n][room->getX() - 1] != TileType::Empty);
+						m_array[n][room->getX()] = TileType::Door;
+						Room* other = getRoomAt(room->getX() - 1, n);
+						room->addLink(other);
+						other->addLink(room);
+					}
+					if(horizontal)
+					{
+						do {
+							n = room->getX() + Random::Range(1, (room->getX() + room->getWidth() == m_width) ? room->getWidth() - 1 : room->getWidth());
+						} while (m_array[room->getY() - 1][n] != TileType::Empty);
+						m_array[room->getY()][n] = TileType::Door;
+						Room* other = getRoomAt(n, room->getY() - 1);
+						room->addLink(other);
+						other->addLink(room);
+					}
+				}
+			}
+		}
 
 		// Add an in 
 		Room* inputRoom = m_roomList[Random::Range(0, m_roomList.size())];
@@ -196,16 +265,16 @@ void Dungeon::_FillArray()
 		do {
 			randX = inputRoom->getX() + Random::Range(1, inputRoom->getWidth());
 			randY = inputRoom->getY() + Random::Range(1, inputRoom->getHeight());
-		} while (m_array[randY][randX] != 0);
-		m_array[randY][randX] = 2;
+		} while (m_array[randY][randX] != TileType::Empty);
+		m_array[randY][randX] = TileType::In;
 
 		// add an out
 		Room* outRoom = m_roomList[Random::Range(0, m_roomList.size())];
 		do {
 			randX = outRoom->getX() + Random::Range(1, outRoom->getWidth());
 			randY = outRoom->getY() + Random::Range(1, outRoom->getHeight());
-		} while (m_array[randY][randX] != 0);
-		m_array[randY][randX] = 3;
+		} while (m_array[randY][randX] != TileType::Empty);
+		m_array[randY][randX] = TileType::Out;
 	}
 }
 

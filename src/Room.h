@@ -28,6 +28,7 @@ private:
 	Room* m_pParent;
 
 	vector<Room*> m_neighbors;
+	vector<Room*> m_links;
 
 public:
 	Room(int x = 0, int y = 0, int w = 1, int h = 1);
@@ -53,6 +54,10 @@ public:
 	inline void addNeighbor(Room* room) { m_neighbors.push_back(room); }
 	Room* getNeighbor(int index);
 	inline size_t getNeighborCount() { return m_neighbors.size(); }
+
+	void addLink(Room* room);
+	Room* getLink(int index);
+	inline size_t getLinkCount() { return m_links.size(); }
 
 	bool isIn(int x, int y);
 

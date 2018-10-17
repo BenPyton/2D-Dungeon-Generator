@@ -19,6 +19,19 @@
 
 using namespace std;
 
+enum TileType
+{
+	Empty = 0,
+	Wall,
+	In,
+	Out,
+	Door,
+	LockedDoor,
+	key,
+	Chest,
+	Enemy
+};
+
 class Dungeon
 {
 private:
@@ -33,7 +46,8 @@ public:
 	~Dungeon();
 
 	inline size_t getRoomCount() { return m_roomList.size(); }
-	inline Room* getRoomAt(int index) { return m_roomList[index]; }
+	inline Room* getRoom(int index) { return m_roomList[index]; }
+	Room* getRoomAt(uint64_t x, uint64_t y);
 
 	void setSize(uint64_t width, uint64_t height);
 	inline uint64_t getWidth() { return m_width; }

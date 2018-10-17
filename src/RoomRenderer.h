@@ -28,10 +28,12 @@ private:
 	sf::Text m_idText;
 	sf::VertexArray m_parentLink;
 	sf::VertexArray m_neighborsLink;
+	sf::VertexArray m_links;
 
 	bool m_enableId;
 	bool m_enableParent;
 	bool m_enableNeighbors;
+	bool m_enableLinks;
 
 protected:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -61,6 +63,9 @@ public:
 
 	inline void displayNeighbors(bool enable) { m_enableNeighbors = enable; }
 	inline bool neighborsDisplayed() { return m_enableNeighbors; }
+
+	inline void displayLinks(bool enable) { m_enableLinks = enable; }
+	inline bool linksDisplayed() { return m_enableLinks; }
 };
 
 #endif // _ROOMRENDERER_H
