@@ -29,6 +29,8 @@ private:
 	vector<sf::RectangleShape> m_cellList;
 	sf::Font* m_pFont;
 	bool m_displayParents;
+	bool m_displayNeighbors;
+	bool m_displayValues;
 
 protected:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -46,6 +48,8 @@ public:
 	inline void setFont(sf::Font& font) { m_pFont = &font; }
 
 	void displayParents(bool enable);
+	void displayNeighbors(bool enable);
+	inline void displayValues(bool enable) { m_displayValues = enable; }
 
 	void update();
 

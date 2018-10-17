@@ -15,9 +15,12 @@
 
 void DungeonRenderer::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	for (int i = 0; i < m_cellList.size(); i++)
+	if (m_displayValues)
 	{
-		target.draw(m_cellList[i]);
+		for (int i = 0; i < m_cellList.size(); i++)
+		{
+			target.draw(m_cellList[i]);
+		}
 	}
 
 	for (int i = 0; i < m_rendererList.size(); i++)
@@ -27,8 +30,9 @@ void DungeonRenderer::draw(sf::RenderTarget & target, sf::RenderStates states) c
 }
 
 DungeonRenderer::DungeonRenderer(Dungeon* dungeon, Grid* grid)
-	: m_pDungeon(dungeon), m_pGrid(grid), m_displayParents(false)
+	: m_pDungeon(dungeon), m_pGrid(grid), m_displayParents(false), m_displayValues(false), m_displayNeighbors(false)
 {
+
 }
 
 DungeonRenderer::~DungeonRenderer()
@@ -42,6 +46,15 @@ void DungeonRenderer::displayParents(bool enable)
 		m_rendererList[i].displayParent(enable);
 	}
 	m_displayParents = enable;
+}
+
+void DungeonRenderer::displayNeighbors(bool enable)
+{
+	for (int i = 0; i < m_rendererList.size(); i++)
+	{
+		m_rendererList[i].displayNeighbors(enable);
+	}
+	m_displayNeighbors = enable;
 }
 
 void DungeonRenderer::update()
@@ -67,7 +80,10 @@ void DungeonRenderer::generate()
 		m_rendererList[i].setFont(*m_pFont);
 		m_rendererList[i].displayId(true);
 		m_rendererList[i].displayParent(m_displayParents);
+		m_rendererList[i].displayNeighbors(m_displayNeighbors);
 	}
+
+	sf::Color grey(100, 100, 100);
 
 	// create corresponding cell rectangle
 	m_cellList.clear();
@@ -75,11 +91,27 @@ void DungeonRenderer::generate()
 	{
 		for (int j = 0; j < m_pDungeon->getHeight(); j++)
 		{
-			if (m_pDungeon->getValue(i, j) == 1)
+			if (m_pDungeon->getValue(i, j) != 0)
 			{
 				sf::RectangleShape rect(sf::Vector2f(m_pGrid->getCellWidth(), m_pGrid->getCellHeight()));
-				rect.setFillColor(sf::Color::White);
 				rect.setPosition(m_pGrid->gridToScreen(sf::Vector2i(i, j)));
+
+				switch (m_pDungeon->getValue(i, j))
+				{
+				case 1:
+					rect.setFillColor(grey);
+					break;
+				case 2:
+					rect.setFillColor(sf::Color::Cyan);
+					break;
+				case 3:
+					rect.setFillColor(sf::Color::Yellow);
+					break;
+				default:
+					rect.setFillColor(sf::Color::Magenta);
+				}
+
+
 				m_cellList.push_back(rect);
 			}
 		}

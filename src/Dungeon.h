@@ -53,6 +53,8 @@ private:
 	void _FillArray();
 
 	void _ResetArray();
+
+	void _ListNeighbors(Room* r);
 };
 
 #endif // _DUNGEON_H

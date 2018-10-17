@@ -11,6 +11,7 @@
 
 #include "stdafx.h"
 #include "Room.h"
+#include <assert.h>
 
 Room::Room(int x, int y, int w, int h)
 	: m_x(x), m_y(y), m_w(w), m_h(h)
@@ -31,6 +32,12 @@ Room::Room(const Room & _r)
 
 Room::~Room()
 {
+}
+
+Room * Room::getNeighbor(int index)
+{
+	assert(index >= 0 && index < m_neighbors.size());
+	return m_neighbors[index];
 }
 
 bool Room::isIn(int x, int y)

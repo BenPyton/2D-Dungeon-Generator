@@ -27,10 +27,11 @@ private:
 	sf::RectangleShape m_rect;
 	sf::Text m_idText;
 	sf::VertexArray m_parentLink;
+	sf::VertexArray m_neighborsLink;
 
 	bool m_enableId;
 	bool m_enableParent;
-
+	bool m_enableNeighbors;
 
 protected:
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
@@ -55,9 +56,11 @@ public:
 	inline void displayId(bool enable) { m_enableId = enable; }
 	inline bool idDisplayed() { return m_enableId; }
 
-
 	inline void displayParent(bool enable) { m_enableParent = enable; }
 	inline bool parentDisplayed() { return m_enableParent; }
+
+	inline void displayNeighbors(bool enable) { m_enableNeighbors = enable; }
+	inline bool neighborsDisplayed() { return m_enableNeighbors; }
 };
 
 #endif // _ROOMRENDERER_H

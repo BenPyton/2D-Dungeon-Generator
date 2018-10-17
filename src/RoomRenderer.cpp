@@ -35,6 +35,10 @@ void RoomRenderer::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 
 			target.draw(circle, states);
 		}
+		if (m_enableNeighbors)
+		{
+			target.draw(m_neighborsLink, states);
+		}
 	}
 
 }
@@ -55,8 +59,11 @@ RoomRenderer::RoomRenderer(Grid* grid, Room* room)
 	m_parentLink.append(sf::Vertex(sf::Vector2f(0, 0), sf::Color::Yellow));
 	m_parentLink.setPrimitiveType(sf::PrimitiveType::Lines);
 
+	m_neighborsLink.setPrimitiveType(sf::PrimitiveType::Lines);
+
 	m_enableId = false;
 	m_enableParent = false;
+	m_enableNeighbors = false;
 }
 
 RoomRenderer::~RoomRenderer()
@@ -79,6 +86,14 @@ void RoomRenderer::update()
 		if (nullptr != m_pRoom->getParent())
 		{
 			m_parentLink[1].position = 0.5f * (m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getParent()->getX(), m_pRoom->getParent()->getY())) + m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getParent()->getX() + m_pRoom->getParent()->getWidth(), m_pRoom->getParent()->getY() + m_pRoom->getParent()->getHeight())));
+		}
+
+
+		m_neighborsLink.clear();
+		for (size_t i = 0; i < m_pRoom->getNeighborCount(); i++)
+		{
+			m_neighborsLink.append(sf::Vertex(0.5f * (m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX(), m_pRoom->getY())) + m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX() + m_pRoom->getWidth(), m_pRoom->getY() + m_pRoom->getHeight()))), sf::Color::Cyan));
+			m_neighborsLink.append(sf::Vertex(0.5f * (m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getNeighbor(i)->getX(), m_pRoom->getNeighbor(i)->getY())) + m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getNeighbor(i)->getX() + m_pRoom->getNeighbor(i)->getWidth(), m_pRoom->getNeighbor(i)->getY() + m_pRoom->getNeighbor(i)->getHeight()))), sf::Color::Cyan));
 		}
 	}
 }

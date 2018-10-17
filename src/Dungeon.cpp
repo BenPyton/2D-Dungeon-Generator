@@ -149,6 +149,12 @@ void Dungeon::_GenerateRooms(int iteration)
 		}
 		vertical = !vertical; // toggle vertical split
 	}
+
+	// list neighbors of each room
+	for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
+	{
+		_ListNeighbors(*it);
+	}
 }
 
 void Dungeon::_FillArray()
@@ -156,11 +162,12 @@ void Dungeon::_FillArray()
 	if (nullptr != m_array)
 	{
 		_ResetArray();
+
+		// make walls
 		for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
 		{
 			Room* room = *it;
 
-			// make walls
 			for (int i = 0; i < room->getHeight(); i++)
 			{
 				m_array[room->getY() + i][room->getX()] = 1;
@@ -170,7 +177,35 @@ void Dungeon::_FillArray()
 			{
 				m_array[room->getY()][room->getX() + i] = 1;
 			}
+
+			for (int i = 0; i < m_height; i++)
+			{
+				m_array[i][m_width - 1] = 1;
+			}
+
+			for (int i = 0; i < m_width; i++)
+			{
+				m_array[m_height - 1][i] = 1;
+			}
 		}
+
+
+		// Add an in 
+		Room* inputRoom = m_roomList[Random::Range(0, m_roomList.size())];
+		int randX = 0, randY = 0;
+		do {
+			randX = inputRoom->getX() + Random::Range(1, inputRoom->getWidth());
+			randY = inputRoom->getY() + Random::Range(1, inputRoom->getHeight());
+		} while (m_array[randY][randX] != 0);
+		m_array[randY][randX] = 2;
+
+		// add an out
+		Room* outRoom = m_roomList[Random::Range(0, m_roomList.size())];
+		do {
+			randX = outRoom->getX() + Random::Range(1, outRoom->getWidth());
+			randY = outRoom->getY() + Random::Range(1, outRoom->getHeight());
+		} while (m_array[randY][randX] != 0);
+		m_array[randY][randX] = 3;
 	}
 }
 
@@ -181,6 +216,34 @@ void Dungeon::_ResetArray()
 		for (int i = 0; i < m_height; i++)
 		{
 			memset(m_array[i], 0, m_width * sizeof(short));
+		}
+	}
+}
+
+void Dungeon::_ListNeighbors(Room * r)
+{
+	for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
+	{
+		Room* other = *it;
+
+		// they are closed to each other in X
+		if (other->getX() + other->getWidth() == r->getX()
+			|| other->getX() == r->getX() + r->getWidth())
+		{
+			if (!(other->getY() + other->getHeight() <= r->getY() || other->getY() >= r->getY() + r->getHeight()))
+			{
+				r->addNeighbor(other);
+			}
+		}
+
+		// they are closed to each other in X
+		if (other->getY() + other->getHeight() == r->getY()
+			|| other->getY() == r->getY() + r->getHeight())
+		{
+			if (!(other->getX() + other->getWidth() <= r->getX() || other->getX() >= r->getX() + r->getWidth()))
+			{
+				r->addNeighbor(other);
+			}
 		}
 	}
 }

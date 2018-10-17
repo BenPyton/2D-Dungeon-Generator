@@ -13,6 +13,7 @@
 #define _ROOM_H
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -25,6 +26,8 @@ private:
 	int m_w, m_h;
 
 	Room* m_pParent;
+
+	vector<Room*> m_neighbors;
 
 public:
 	Room(int x = 0, int y = 0, int w = 1, int h = 1);
@@ -46,6 +49,10 @@ public:
 	inline int getWidth() { return m_w; }
 	inline int getHeight() { return m_h; }
 	inline Room* getParent() { return m_pParent; }
+
+	inline void addNeighbor(Room* room) { m_neighbors.push_back(room); }
+	Room* getNeighbor(int index);
+	inline size_t getNeighborCount() { return m_neighbors.size(); }
 
 	bool isIn(int x, int y);
 

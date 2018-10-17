@@ -35,7 +35,7 @@ int main()
 	fpsText.setPosition(10, 10);
 	fpsText.setColor(lightGrey);
 
-	// Button Example
+	// Button Generate
 	Button button(size.x - 160, 10, 150, 30);
 	button.setText("Generate", font, 16);
 	button.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
@@ -43,8 +43,7 @@ int main()
 	button.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
 	button.setOutlineThickness(1.0f);
 
-
-	// Button Example
+	// Button Show parents
 	Toggle btn_showParents(size.x - 320, 10, 150, 30);
 	btn_showParents.setText("Show Parents", font, 16);
 	btn_showParents.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
@@ -52,7 +51,23 @@ int main()
 	btn_showParents.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
 	btn_showParents.setOutlineThickness(1.0f);
 
-	Grid grid(32, 32, 20, 20, darkGrey);
+	// Button Show neighbors
+	Toggle btn_showNeighbors(size.x - 480, 10, 150, 30);
+	btn_showNeighbors.setText("Show Neighbors", font, 16);
+	btn_showNeighbors.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
+	btn_showNeighbors.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
+	btn_showNeighbors.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
+	btn_showNeighbors.setOutlineThickness(1.0f);
+
+	// Button Show values
+	Toggle btn_showValues(size.x - 640, 10, 150, 30);
+	btn_showValues.setText("Show Values", font, 16);
+	btn_showValues.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
+	btn_showValues.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
+	btn_showValues.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
+	btn_showValues.setOutlineThickness(1.0f);
+
+	Grid grid(64, 64, 10, 10, darkGrey);
 	grid.setPosition(sf::Vector2f(50, 50));
 
 	sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
@@ -71,7 +86,9 @@ int main()
 		Input::Update(window);
 
 		button.update(); // buttons must be updated before using them
-		btn_showParents.update(); // buttons must be updated before using them
+		btn_showParents.update();
+		btn_showNeighbors.update();
+		btn_showValues.update();
 
 		// ///////////////////////// GAME LOGIC
 		if (Input::GetKeyDown(sf::Keyboard::Escape))
@@ -94,6 +111,16 @@ int main()
 			renderer.displayParents(btn_showParents.getChecked());
 		}
 
+		if (btn_showNeighbors.click())
+		{
+			renderer.displayNeighbors(btn_showNeighbors.getChecked());
+		}
+
+		if (btn_showValues.click())
+		{
+			renderer.displayValues(btn_showValues.getChecked());
+		}
+
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
 		{
 			sf::Vector2f mousePos = Input::GetMousePosition();
@@ -111,6 +138,8 @@ int main()
 
 		window.draw(fpsText);
 		window.draw(button);
+		window.draw(btn_showNeighbors);
+		window.draw(btn_showValues);
 		window.draw(btn_showParents);
 
 		window.draw(grid);
