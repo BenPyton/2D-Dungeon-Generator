@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="includes">
+      <UniqueIdentifier>{8ba97aba-e9dd-425a-9b8b-032b586f31d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="includes\DG">
+      <UniqueIdentifier>{5cb313af-91c2-4b81-9bf1-cb9a8fcdd5c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{552a8c98-9975-4c7f-b595-040a6be4ea13}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\includes\DG\Exports.h">
+      <Filter>includes\DG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\includes\DG\Dungeon.h">
+      <Filter>includes\DG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\includes\DG\Room.h">
+      <Filter>includes\DG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\includes\DG\LibDungeon.h">
+      <Filter>includes\DG</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Dungeon.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -3,20 +3,53 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2D Dungeon Generator", "src\2D Dungeon Generator.vcxproj", "{EDF89363-BE35-4049-B055-1917E168E724}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library", "src\Library\Library.vcxproj", "{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFML View", "src\SFML View\SFML View.vcxproj", "{EDF89363-BE35-4049-B055-1917E168E724}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6} = {D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Static|x64 = Debug Static|x64
+		Debug Static|x86 = Debug Static|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release Static|x64 = Release Static|x64
+		Release Static|x86 = Release Static|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Debug Static|x64.ActiveCfg = Debug Static|x64
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Debug Static|x64.Build.0 = Debug Static|x64
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Debug Static|x86.ActiveCfg = Debug Static|Win32
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Debug Static|x86.Build.0 = Debug Static|Win32
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Debug|x64.ActiveCfg = Debug|x64
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Debug|x64.Build.0 = Debug|x64
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Debug|x86.ActiveCfg = Debug|Win32
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Debug|x86.Build.0 = Debug|Win32
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Release Static|x64.ActiveCfg = Release Static|x64
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Release Static|x64.Build.0 = Release Static|x64
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Release Static|x86.ActiveCfg = Release Static|Win32
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Release Static|x86.Build.0 = Release Static|Win32
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Release|x64.ActiveCfg = Release|x64
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Release|x64.Build.0 = Release|x64
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Release|x86.ActiveCfg = Release|Win32
+		{D5350E5D-C4FD-4CE6-A7CC-85E6E1A2DFC6}.Release|x86.Build.0 = Release|Win32
+		{EDF89363-BE35-4049-B055-1917E168E724}.Debug Static|x64.ActiveCfg = Debug Static|x64
+		{EDF89363-BE35-4049-B055-1917E168E724}.Debug Static|x64.Build.0 = Debug Static|x64
+		{EDF89363-BE35-4049-B055-1917E168E724}.Debug Static|x86.ActiveCfg = Debug Static|Win32
+		{EDF89363-BE35-4049-B055-1917E168E724}.Debug Static|x86.Build.0 = Debug Static|Win32
 		{EDF89363-BE35-4049-B055-1917E168E724}.Debug|x64.ActiveCfg = Debug|x64
 		{EDF89363-BE35-4049-B055-1917E168E724}.Debug|x64.Build.0 = Debug|x64
 		{EDF89363-BE35-4049-B055-1917E168E724}.Debug|x86.ActiveCfg = Debug|Win32
 		{EDF89363-BE35-4049-B055-1917E168E724}.Debug|x86.Build.0 = Debug|Win32
+		{EDF89363-BE35-4049-B055-1917E168E724}.Release Static|x64.ActiveCfg = Release Static|x64
+		{EDF89363-BE35-4049-B055-1917E168E724}.Release Static|x64.Build.0 = Release Static|x64
+		{EDF89363-BE35-4049-B055-1917E168E724}.Release Static|x86.ActiveCfg = Release Static|Win32
+		{EDF89363-BE35-4049-B055-1917E168E724}.Release Static|x86.Build.0 = Release Static|Win32
 		{EDF89363-BE35-4049-B055-1917E168E724}.Release|x64.ActiveCfg = Release|x64
 		{EDF89363-BE35-4049-B055-1917E168E724}.Release|x64.Build.0 = Release|x64
 		{EDF89363-BE35-4049-B055-1917E168E724}.Release|x86.ActiveCfg = Release|Win32
