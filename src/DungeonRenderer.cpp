@@ -122,7 +122,6 @@ void DungeonRenderer::generate()
 					break;
 				case TileType::Door:
 					rect.setFillColor(sf::Color::Blue);
-					cout << "Set blue color to door!" << endl;
 					break;
 				case TileType::LockedDoor:
 					rect.setFillColor(orange);
