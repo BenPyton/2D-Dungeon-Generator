@@ -14,7 +14,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Dungeon.h"
+#include <DG/LibDungeon.h>
 #include "Grid.h"
 #include "RoomRenderer.h"
 

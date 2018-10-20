@@ -13,7 +13,7 @@
 #define _ROOMRENDERER_H
 
 #include <iostream>
-#include "Room.h"
+#include <DG/LibDungeon.h>
 #include "Grid.h"
 #include <SFML/Graphics.hpp>
 

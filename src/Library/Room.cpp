@@ -9,7 +9,6 @@
 *
 */
 
-//#include "stdafx.h"
 #include "DG/Room.h"
 #include <cassert>
 

@@ -9,10 +9,7 @@
 *
 */
 
-//#include "stdafx.h"
 #include "DG/Dungeon.h"
-//#include "Core/Random.h"
-//#include "Core/Input.h"
 #include <ctime>
 #include <cassert>
 

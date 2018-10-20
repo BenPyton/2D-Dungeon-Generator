@@ -3,11 +3,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <DG/LibDungeon.h>
 #include "Core.h" // custom classes and functions (like Input, Button, etc.)
 #include "Grid.h"
-#include "Room.h"
 #include "RoomRenderer.h"
-#include "Dungeon.h"
 #include "DungeonRenderer.h"
 
 #define FRAMERATE 60

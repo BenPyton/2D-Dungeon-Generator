@@ -14,11 +14,12 @@
 
 #include <iostream>
 #include <vector>
+#include "Exports.h"
 #include "Room.h"
 
 using namespace std;
 
-enum TileType
+enum LIBDUNGEON_API TileType
 {
 	Empty = 0,
 	Wall,
@@ -31,7 +32,7 @@ enum TileType
 	Enemy
 };
 
-class Dungeon
+class LIBDUNGEON_API Dungeon
 {
 private:
 	vector<Room*> m_roomList;
