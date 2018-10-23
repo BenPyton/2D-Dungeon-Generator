@@ -13,10 +13,11 @@
 #define _DUNGEONPARAMS_H
 
 #include <iostream>
+#include "Exports.h"
 
 using namespace std;
 
-struct DungeonParams
+struct LIBDUNGEON_API DungeonParams
 {
 	uint64_t width;
 	uint64_t height;
@@ -30,8 +31,22 @@ struct DungeonParams
 	uint8_t maxEnemy;
 	uint8_t maxEnemyPerRoom;
 
-	static DungeonParams zero;
-	static DungeonParams basic;
+	static const DungeonParams basic;
+	static const DungeonParams zero;
+
+	DungeonParams(
+		uint64_t _width, 
+		uint64_t _height,
+		uint64_t _roomMinWidth,
+		uint64_t _roomMinHeight,
+		uint64_t _roomMaxWidth,
+		uint64_t _roomMaxHeight,
+		uint8_t _iteration,
+		uint8_t _maxChest,
+		uint8_t _maxChestPerRoom,
+		uint8_t _maxEnemy,
+		uint8_t _maxEnemyPerRoom
+		);
 };
 
 #endif // _DUNGEONPARAMS_H

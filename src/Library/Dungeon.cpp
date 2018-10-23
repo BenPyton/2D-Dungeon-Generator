@@ -26,7 +26,7 @@ Dungeon::Dungeon(uint64_t width, uint64_t height)
 }
 
 Dungeon::Dungeon(const DungeonParams & params)
-	: m_params(params)
+	: m_params(params), m_array(nullptr)
 {
 	_SetArraySize();
 
@@ -172,8 +172,8 @@ void Dungeon::_GenerateRooms(int iteration)
 			}
 
 			// None of the two rooms are too small
-			if (newRoom->getWidth() > 2 && newRoom->getHeight() > 2
-				&& m_roomList[k]->getWidth() > 2 && m_roomList[k]->getHeight() > 2)
+			if (newRoom->getWidth() >= m_params.roomMinWidth && newRoom->getHeight() > m_params.roomMinHeight
+				&& m_roomList[k]->getWidth() > m_params.roomMinWidth && m_roomList[k]->getHeight() > m_params.roomMinHeight)
 			{
 				// Add new room in the list
 				newRoom->setId(m_roomList.size());
@@ -296,32 +296,34 @@ void Dungeon::_FillArray()
 			m_array[randY][randX] = TileType::In;
 		}
 
-		// add an out
+		// Add an out
 		Room* outRoom = m_roomList[_RandRange(0, m_roomList.size())];
 		if (_GetEmptyCell(outRoom, randX, randY))
 		{
 			m_array[randY][randX] = TileType::Out;
 		}
 
-
 		// Add chests
-		int nbChestLeft = m_params.maxChest-1;
-		for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
+		if (m_params.maxChest > 0)
 		{
-			Room* room = *it;
-
-			if (room != inputRoom && room != outRoom)
+			int nbChestLeft = m_params.maxChest - 1;
+			for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
 			{
-				int placeChest = _RandRange(0, 2); // 50% chance to place chest in the room
-				int n = _RandRange(0, min(nbChestLeft, m_params.maxChestPerRoom)) + 1; // can place up to max chests in the room
-				if (placeChest == 0)
+				Room* room = *it;
+
+				if (room != inputRoom && room != outRoom)
 				{
-					for (int i = 0; i < n; i++)
+					int placeChest = _RandRange(0, 2); // 50% chance to place chest in the room
+					int n = _RandRange(0, min(nbChestLeft, m_params.maxChestPerRoom)) + 1; // can place up to max chests in the room
+					if (placeChest == 0)
 					{
-						if (_GetEmptyCell(room, randX, randY))
+						for (int i = 0; i < n; i++)
 						{
-							m_array[randY][randX] = TileType::Chest;
-							nbChestLeft--;
+							if (_GetEmptyCell(room, randX, randY))
+							{
+								m_array[randY][randX] = TileType::Chest;
+								nbChestLeft--;
+							}
 						}
 					}
 				}
@@ -329,23 +331,26 @@ void Dungeon::_FillArray()
 		}
 
 		// Add Enemies
-		int nbEnemyLeft = m_params.maxEnemy-1;
-		for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
+		if (m_params.maxEnemy > 0)
 		{
-			Room* room = *it;
-
-			if (room != inputRoom && room != outRoom)
+			int nbEnemyLeft = m_params.maxEnemy - 1;
+			for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
 			{
-				int placeChest = _RandRange(0, 2); // 50% chance to place enemies in the room
-				int n = _RandRange(0, min(nbEnemyLeft, m_params.maxEnemyPerRoom)) + 1; // can place up to max enemies in the room
-				if (placeChest == 0)
+				Room* room = *it;
+
+				if (room != inputRoom && room != outRoom)
 				{
-					for (int i = 0; i < n; i++)
+					int placeChest = _RandRange(0, 2); // 50% chance to place enemies in the room
+					int n = _RandRange(0, min(nbEnemyLeft, m_params.maxEnemyPerRoom)) + 1; // can place up to max enemies in the room
+					if (placeChest == 0)
 					{
-						if (_GetEmptyCell(room, randX, randY))
+						for (int i = 0; i < n; i++)
 						{
-							m_array[randY][randX] = TileType::Enemy;
-							nbEnemyLeft--;
+							if (_GetEmptyCell(room, randX, randY))
+							{
+								m_array[randY][randX] = TileType::Enemy;
+								nbEnemyLeft--;
+							}
 						}
 					}
 				}

@@ -86,7 +86,13 @@ int main()
 	sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
 	rect.setFillColor(lightGrey);
 
-	Dungeon dungeon(grid.getWidth(), grid.getHeight());
+
+	DungeonParams params = DungeonParams::basic;
+	params.width = grid.getWidth();
+	params.height = grid.getHeight();
+	params.roomMinWidth = 5;
+	params.roomMinHeight = 5;
+	Dungeon dungeon(params);
 
 	// render dungeon in SFML
 	DungeonRenderer renderer(&dungeon, &grid);
