@@ -18,7 +18,11 @@ DungeonParams DungeonParams::zero = {
 	0, // roomMinHeight
 	0, // roomMaxWidth
 	0, // roomMaxHeight
-	0  // iteration
+	0, // iteration
+	0, // maxChest
+	0, // maxChestPerRoom
+	0, // maxEnemy
+	0  // maxEnemyPerRoom
 };
 
 DungeonParams DungeonParams::basic = {
@@ -28,6 +32,10 @@ DungeonParams DungeonParams::basic = {
 	3, // roomMinHeight
 	0, // roomMaxWidth
 	0, // roomMaxHeight
-	5  // iteration
+	5, // iteration
+	5, // maxChest
+	2, // maxChestPerRoom
+	20,// maxEnemy
+	5  // maxEnemyPerRoom
 };
 

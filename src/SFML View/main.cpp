@@ -34,6 +34,11 @@ int main()
 	fpsText.setPosition(10, 10);
 	fpsText.setColor(lightGrey);
 
+	int nbGeneration = 0;
+	sf::Text generationText("Nbr Generation: ??", font, 16);
+	generationText.setPosition(10, size.y - 26);
+	generationText.setColor(lightGrey);
+
 	// Button Generate
 	Button button(size.x - 160, 10, 150, 30);
 	button.setText("Generate", font, 16);
@@ -106,10 +111,12 @@ int main()
 		}
 
 		fpsText.setString("FPS: " + floatToStr(Time::GetFps(), 0));
+		generationText.setString("Nbr generation: " + floatToStr(nbGeneration, 0));
 
 		if (button.click() || Input::GetKeyDown(sf::Keyboard::G))
 		{
 			cout << "Click !" << endl; 
+			nbGeneration++;
 
 			dungeon.generate(5);
 			renderer.generate();
@@ -151,6 +158,7 @@ int main()
 		window.clear();
 
 		window.draw(fpsText);
+		window.draw(generationText);
 		window.draw(button);
 		window.draw(btn_showNeighbors);
 		window.draw(btn_showValues);

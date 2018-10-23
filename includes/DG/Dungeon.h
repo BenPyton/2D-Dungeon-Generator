@@ -78,6 +78,7 @@ private:
 
 	void _ListNeighbors(Room* r);
 
+	bool _GetEmptyCell(Room* r, int& x, int& y);
 
 	void _SetArraySize();
 };

@@ -25,6 +25,10 @@ struct DungeonParams
 	uint64_t roomMaxWidth;
 	uint64_t roomMaxHeight;
 	uint8_t iteration;
+	uint8_t maxChest;
+	uint8_t maxChestPerRoom;
+	uint8_t maxEnemy;
+	uint8_t maxEnemyPerRoom;
 
 	static DungeonParams zero;
 	static DungeonParams basic;

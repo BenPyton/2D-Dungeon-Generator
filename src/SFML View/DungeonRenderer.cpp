@@ -97,6 +97,7 @@ void DungeonRenderer::generate()
 
 	sf::Color grey(100, 100, 100);
 	sf::Color orange(255, 180, 0);
+	sf::Color brown(180, 100, 0);
 
 	// create corresponding cell rectangle
 	m_cellList.clear();
@@ -129,6 +130,9 @@ void DungeonRenderer::generate()
 					break;
 				case TileType::Enemy:
 					rect.setFillColor(sf::Color::Red);
+					break;
+				case TileType::Chest:
+					rect.setFillColor(brown);
 					break;
 				default:
 					rect.setFillColor(sf::Color::Magenta);
