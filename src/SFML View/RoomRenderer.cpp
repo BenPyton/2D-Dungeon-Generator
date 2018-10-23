@@ -17,6 +17,8 @@ void RoomRenderer::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 {
 	if (nullptr != m_pGrid && nullptr != m_pRoom)
 	{
+		sf::CircleShape circle(5, 12);
+
 		target.draw(m_rect, states);
 		if (m_enableId)
 		{
@@ -29,7 +31,6 @@ void RoomRenderer::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 				target.draw(m_parentLink, states);
 			}
 
-			sf::CircleShape circle(5, 12);
 			circle.setPosition(m_parentLink[0].position - sf::Vector2f(circle.getRadius(), circle.getRadius()));
 			circle.setFillColor(sf::Color::Yellow);
 
@@ -42,6 +43,11 @@ void RoomRenderer::draw(sf::RenderTarget & target, sf::RenderStates states) cons
 		if (m_enableLinks)
 		{
 			target.draw(m_links, states);
+
+			sf::Vector2f center = 0.5f * (m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX(), m_pRoom->getY())) + m_pGrid->gridToScreen(sf::Vector2i(m_pRoom->getX() + m_pRoom->getWidth(), m_pRoom->getY() + m_pRoom->getHeight())));
+			circle.setPosition(center - sf::Vector2f(circle.getRadius(), circle.getRadius()));
+			circle.setFillColor(sf::Color::Green);
+			target.draw(circle);
 		}
 	}
 
