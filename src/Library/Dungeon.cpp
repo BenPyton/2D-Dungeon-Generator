@@ -14,9 +14,20 @@
 #include <cassert>
 
 Dungeon::Dungeon(uint64_t width, uint64_t height)
-	: m_width(width), m_height(height), m_array(nullptr)
+	: m_params(DungeonParams::basic), m_array(nullptr)
 {
-	setSize(width, height);
+	m_params.width = width;
+	m_params.height = height;
+	_SetArraySize();
+
+	srand(time(NULL));
+}
+
+Dungeon::Dungeon(const DungeonParams & params)
+	: m_params(params)
+{
+	_SetArraySize();
+
 	srand(time(NULL));
 }
 
@@ -41,18 +52,15 @@ Room * Dungeon::getRoomAt(uint64_t x, uint64_t y)
 	return room;
 }
 
-void Dungeon::setSize(uint64_t width, uint64_t height)
+void Dungeon::_SetArraySize()
 {
 	_ClearArray();
 
-	m_width = width;
-	m_height = height;
-
-	m_array = (short**)malloc(m_height * sizeof(short*));
-	for (int i = 0; i < m_height; i++)
+	m_array = (short**)malloc(m_params.height * sizeof(short*));
+	for (int i = 0; i < m_params.height; i++)
 	{
-		m_array[i] = (short*)malloc(m_width * sizeof(short));
-		memset(m_array[i], 0, m_width * sizeof(short));
+		m_array[i] = (short*)malloc(m_params.width * sizeof(short));
+		memset(m_array[i], 0, m_params.width * sizeof(short));
 	}
 }
 
@@ -64,14 +72,20 @@ void Dungeon::generate(int iteration)
 
 short Dungeon::getValue(uint64_t x, uint64_t y)
 {
-	assert(nullptr != m_array && x < m_width && y < m_height);
+	assert(nullptr != m_array && x < m_params.width && y < m_params.height);
 	return m_array[y][x];
 }
 
 void Dungeon::setValue(uint64_t x, uint64_t y, short value)
 {
-	assert(nullptr != m_array && x < m_width && y < m_height);
+	assert(nullptr != m_array && x < m_params.width && y < m_params.height);
 	m_array[y][x] = value;
+}
+
+void Dungeon::setParams(const DungeonParams & params)
+{
+	m_params = params;
+	_SetArraySize();
 }
 
 int Dungeon::_RandRange(int min, int max)
@@ -100,7 +114,7 @@ void Dungeon::_ClearArray()
 {
 	if (nullptr != m_array)
 	{
-		for (uint64_t i = 0; i < m_height; i++)
+		for (uint64_t i = 0; i < m_params.height; i++)
 		{
 			delete[] m_array[i];
 		}
@@ -117,7 +131,7 @@ void Dungeon::_GenerateRooms(int iteration)
 	_ClearRoomList();
 
 	// create root room
-	m_roomList.push_back(new Room(0, 0, m_width, m_height));
+	m_roomList.push_back(new Room(0, 0, m_params.width, m_params.height));
 
 	for (int i = 0; i < iteration; i++)
 	{
@@ -204,14 +218,14 @@ void Dungeon::_FillArray()
 				m_array[room->getY()][room->getX() + i] = TileType::Wall;
 			}
 
-			for (int i = 0; i < m_height; i++)
+			for (int i = 0; i < m_params.height; i++)
 			{
-				m_array[i][m_width - 1] = TileType::Wall;
+				m_array[i][m_params.width - 1] = TileType::Wall;
 			}
 
-			for (int i = 0; i < m_width; i++)
+			for (int i = 0; i < m_params.width; i++)
 			{
-				m_array[m_height - 1][i] = TileType::Wall;
+				m_array[m_params.height - 1][i] = TileType::Wall;
 			}
 		}
 
@@ -249,7 +263,7 @@ void Dungeon::_FillArray()
 					if (vertical) 
 					{
 						do {
-							n = room->getY() + _RandRange(1, (room->getY() + room->getHeight() == m_height) ? room->getHeight() - 1 : room->getHeight());
+							n = room->getY() + _RandRange(1, (room->getY() + room->getHeight() == m_params.height) ? room->getHeight() - 1 : room->getHeight());
 						} while (m_array[n][room->getX() - 1] != TileType::Empty);
 						m_array[n][room->getX()] = TileType::Door;
 						Room* other = getRoomAt(room->getX() - 1, n);
@@ -259,7 +273,7 @@ void Dungeon::_FillArray()
 					if(horizontal)
 					{
 						do {
-							n = room->getX() + _RandRange(1, (room->getX() + room->getWidth() == m_width) ? room->getWidth() - 1 : room->getWidth());
+							n = room->getX() + _RandRange(1, (room->getX() + room->getWidth() == m_params.width) ? room->getWidth() - 1 : room->getWidth());
 						} while (m_array[room->getY() - 1][n] != TileType::Empty);
 						m_array[room->getY()][n] = TileType::Door;
 						Room* other = getRoomAt(n, room->getY() - 1);
@@ -293,9 +307,9 @@ void Dungeon::_ResetArray()
 {
 	if (nullptr != m_array)
 	{
-		for (int i = 0; i < m_height; i++)
+		for (int i = 0; i < m_params.height; i++)
 		{
-			memset(m_array[i], 0, m_width * sizeof(short));
+			memset(m_array[i], 0, m_params.width * sizeof(short));
 		}
 	}
 }

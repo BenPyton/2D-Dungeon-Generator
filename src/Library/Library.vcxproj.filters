@@ -24,12 +24,18 @@
     <ClInclude Include="..\..\includes\DG\LibDungeon.h">
       <Filter>includes\DG</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\includes\DG\DungeonParams.h">
+      <Filter>includes\DG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dungeon.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="Room.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonParams.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

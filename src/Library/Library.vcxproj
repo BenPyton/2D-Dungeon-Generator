@@ -124,23 +124,23 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(Configuration)\</IntDir>
     <TargetName>DungeonGenerator-d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(Configuration)\</IntDir>
     <TargetName>DungeonGenerator-d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(Configuration)\</IntDir>
     <TargetName>DungeonGenerator</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(Configuration)</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(Configuration)\</IntDir>
     <TargetName>DungeonGenerator</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -250,6 +250,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\includes\DG\DungeonParams.h" />
     <ClInclude Include="..\..\includes\DG\LibDungeon.h" />
     <ClInclude Include="..\..\includes\DG\Dungeon.h" />
     <ClInclude Include="..\..\includes\DG\Exports.h" />
@@ -257,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dungeon.cpp" />
+    <ClCompile Include="DungeonParams.cpp" />
     <ClCompile Include="Room.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -17,13 +17,13 @@ void DungeonRenderer::draw(sf::RenderTarget & target, sf::RenderStates states) c
 {
 	if (m_displayValues)
 	{
-		for (int i = 0; i < m_cellList.size(); i++)
+		for (size_t i = 0; i < m_cellList.size(); i++)
 		{
 			target.draw(m_cellList[i]);
 		}
 	}
 
-	for (int i = 0; i < m_rendererList.size(); i++)
+	for (size_t i = 0; i < m_rendererList.size(); i++)
 	{
 		target.draw(m_rendererList[i]);
 	}
@@ -43,7 +43,7 @@ DungeonRenderer::~DungeonRenderer()
 
 void DungeonRenderer::displayParents(bool enable)
 {
-	for (int i = 0; i < m_rendererList.size(); i++)
+	for (size_t i = 0; i < m_rendererList.size(); i++)
 	{
 		m_rendererList[i].displayParent(enable);
 	}
@@ -52,7 +52,7 @@ void DungeonRenderer::displayParents(bool enable)
 
 void DungeonRenderer::displayNeighbors(bool enable)
 {
-	for (int i = 0; i < m_rendererList.size(); i++)
+	for (size_t i = 0; i < m_rendererList.size(); i++)
 	{
 		m_rendererList[i].displayNeighbors(enable);
 	}
@@ -61,7 +61,7 @@ void DungeonRenderer::displayNeighbors(bool enable)
 
 void DungeonRenderer::displayLinks(bool enable)
 {
-	for (int i = 0; i < m_rendererList.size(); i++)
+	for (size_t i = 0; i < m_rendererList.size(); i++)
 	{
 		m_rendererList[i].displayLinks(enable);
 	}
@@ -73,7 +73,7 @@ void DungeonRenderer::update()
 	if (nullptr != m_pDungeon && nullptr != m_pGrid)
 	{
 		sf::Vector2i cell = m_pGrid->screenToGrid(Input::GetMousePosition());
-		for (int i = 0; i < m_rendererList.size(); i++)
+		for (size_t i = 0; i < m_rendererList.size(); i++)
 		{
 			m_rendererList[i].setColor(m_pDungeon->getRoom(i)->isIn(cell.x, cell.y) ? sf::Color::Red : sf::Color::White);
 			m_rendererList[i].update();
@@ -85,7 +85,7 @@ void DungeonRenderer::generate()
 {
 	// create corresponding renderer
 	m_rendererList.clear();
-	for (int i = 0; i < m_pDungeon->getRoomCount(); i++)
+	for (size_t i = 0; i < m_pDungeon->getRoomCount(); i++)
 	{
 		m_rendererList.push_back(RoomRenderer(m_pGrid, m_pDungeon->getRoom(i)));
 		m_rendererList[i].setFont(*m_pFont);
@@ -100,9 +100,10 @@ void DungeonRenderer::generate()
 
 	// create corresponding cell rectangle
 	m_cellList.clear();
-	for (int i = 0; i < m_pDungeon->getWidth(); i++)
+	DungeonParams params = m_pDungeon->getParams();
+	for (uint64_t i = 0; i < params.width; i++)
 	{
-		for (int j = 0; j < m_pDungeon->getHeight(); j++)
+		for (uint64_t j = 0; j < params.height; j++)
 		{
 			if (m_pDungeon->getValue(i, j) != TileType::Empty)
 			{
