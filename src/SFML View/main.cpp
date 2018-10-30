@@ -22,7 +22,7 @@ int main()
 
 	// Load font
 	sf::Font font;
-	if (!font.loadFromFile("data/font/consola.ttf"))
+	if (!font.loadFromFile("../../../data/font/consola.ttf"))
 	{
 		printf("Error when loading font");
 	}
@@ -32,12 +32,12 @@ int main()
 
 	sf::Text fpsText("FPS: ??", font, 16);
 	fpsText.setPosition(10, 10);
-	fpsText.setColor(lightGrey);
+	fpsText.setFillColor(lightGrey);
 
 	int nbGeneration = 0;
 	sf::Text generationText("Nbr Generation: ??", font, 16);
 	generationText.setPosition(10, size.y - 26);
-	generationText.setColor(lightGrey);
+	generationText.setFillColor(lightGrey);
 
 	// Button Generate
 	Button button(size.x - 160, 10, 150, 30);

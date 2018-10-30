@@ -61,5 +61,5 @@ void Toggle::update()
 
 	m_rect.setFillColor(m_styles[m_state].bgCol);
 	m_rect.setOutlineColor(m_styles[m_state].outCol);
-	m_text.setColor(m_styles[m_state].fgCol);
+	m_text.setFillColor(m_styles[m_state].fgCol);
 }

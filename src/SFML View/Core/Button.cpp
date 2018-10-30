@@ -44,7 +44,7 @@ void Button::setText(std::string text, sf::Font &font, int size)
 void Button::update()
 {
 	AbstractUI::update();
-	m_text.setColor(m_styles[m_state].fgCol);
+	m_text.setFillColor(m_styles[m_state].fgCol);
 }
 
 void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const
