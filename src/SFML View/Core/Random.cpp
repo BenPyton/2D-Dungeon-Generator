@@ -26,5 +26,5 @@ Random::~Random()
 
 int Random::Range(int min, int max)
 {
-	return (min != max) ? rand() % (max - min) + min : min;
+	return rand() % (max - min) + min;
 }

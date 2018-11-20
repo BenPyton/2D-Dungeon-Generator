@@ -19,20 +19,25 @@
 class Button : public AbstractUI
 {
 protected:
-	sf::Text m_text;
-
-protected:
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+	sf::Text* m_text;
 
 public:
 	// Constructor
-	Button(int x, int y, int width, int height);
+	Button(int x, int y, int width, int height, UIStyle* style = &UIStyle::Default);
+	virtual ~Button();
 
 	// Accessors
 	void setText(std::string text, sf::Font &font, int size);
 	/*void SetNormalTexture(int x, int y, int w, int h);
 	void SetClickedTexture(int x, int y, int w, int h);*/
-	virtual void update() override;
+	//virtual void update() override;
+
+protected:
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+
+	//virtual void _updateState() override;
+	virtual void _updateTransform() override;
+	virtual void _updateStyle() override;
 };
 
 

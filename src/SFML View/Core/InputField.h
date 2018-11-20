@@ -22,23 +22,18 @@ using namespace std;
 class InputField : public AbstractUI
 {
 private:
-	sf::Text m_text;
+	sf::Text* m_text;
 	sf::String m_str;
 	sf::String m_placeholder;
 	int m_maxChar;
 	float m_timer;
 
-protected:
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-	void _updateText();
-
 public:
-	InputField(int x, int y, int width, int height);
-	~InputField();
+	InputField(int x, int y, int width, int height, UIStyle* style = &UIStyle::Default);
+	virtual ~InputField();
 
 
 	// Accessors
-	// void setText(std::string text, sf::Font &font, int size);
 	void setFont(sf::Font &font);
 	void setCharacterSize(int size);
 	void setMaxLength(int max);
@@ -58,8 +53,15 @@ public:
 	void setDouble(double value);
 
 
-	virtual void update() override;
+	//virtual void update() override;
 
+
+protected:
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+	void _updateText();
+	virtual void _updateState() override;
+	virtual void _updateTransform() override;
+	virtual void _updateStyle() override;
 };
 
 #endif // _INPUTFIELD_H

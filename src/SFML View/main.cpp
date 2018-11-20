@@ -9,16 +9,11 @@
 #include "RoomRenderer.h"
 #include "DungeonRenderer.h"
 
-#define FRAMERATE 60
-
 using namespace std;
-
-
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(900, 740), "2D Dungeon Generator");
-	sf::Vector2u size = window.getSize();
+	Window::Create(sf::VideoMode(900, 740), "2D Dungeon Generator");
 
 	// Load font
 	sf::Font font;
@@ -36,49 +31,51 @@ int main()
 
 	int nbGeneration = 0;
 	sf::Text generationText("Nbr Generation: ??", font, 16);
-	generationText.setPosition(10, size.y - 26);
+	generationText.setPosition(10, Window::GetHeight() - 26);
 	generationText.setFillColor(lightGrey);
 
+	UIStyle style; 
+	style.mapStyle(UI_NORMAL, lightGrey, sf::Color::Black, lightGrey, 1.0f);
+	style.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey, 1.0f);
+	style.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey, 1.0f);
+
 	// Button Generate
-	Button button(size.x - 160, 10, 150, 30);
-	button.setText("Generate", font, 16);
-	button.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
-	button.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
-	button.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
-	button.setOutlineThickness(1.0f);
+	Button btn_Generate(0, 0, 0, 30, &style);
+	btn_Generate.setText("Generate", font, 16);
 
 	// Button Show parents
-	Toggle btn_showParents(size.x - 160, 50, 150, 30);
+	Toggle btn_showParents(0, 0, 0, 30, &style);
 	btn_showParents.setText("Show Parents", font, 16);
-	btn_showParents.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
-	btn_showParents.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
-	btn_showParents.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
-	btn_showParents.setOutlineThickness(1.0f);
 
 	// Button Show neighbors
-	Toggle btn_showNeighbors(size.x - 160, 90, 150, 30);
+	Toggle btn_showNeighbors(0, 0, 0, 30, &style);
 	btn_showNeighbors.setText("Show Neighbors", font, 16);
-	btn_showNeighbors.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
-	btn_showNeighbors.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
-	btn_showNeighbors.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
-	btn_showNeighbors.setOutlineThickness(1.0f);
-
 
 	// Button Show values
-	Toggle btn_showLinks(size.x - 160, 130, 150, 30);
+	Toggle btn_showLinks(0, 0, 0, 30, &style);
 	btn_showLinks.setText("Show Links", font, 16);
-	btn_showLinks.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
-	btn_showLinks.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
-	btn_showLinks.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
-	btn_showLinks.setOutlineThickness(1.0f);
 
 	// Button Show values
-	Toggle btn_showValues(size.x - 160, 170, 150, 30);
+	Toggle btn_showValues(0, 0, 0, 30, &style);
 	btn_showValues.setText("Show Values", font, 16);
-	btn_showValues.mapStyle(UI_NORMAL, lightGrey, sf::Color::Transparent, lightGrey);
-	btn_showValues.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey);
-	btn_showValues.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey);
-	btn_showValues.setOutlineThickness(1.0f);
+
+
+	VerticalLayout vLayout(0, 0, 170, 200);
+	vLayout.setAnchorMin(sf::Vector2f(1, 0));
+	vLayout.setAnchorMax(sf::Vector2f(1, 1));
+	vLayout.setPivot(sf::Vector2f(1, 0));
+	vLayout.setSpacing(10);
+	vLayout.setPaddings(10, 10, 10, 10);
+	vLayout.add(btn_Generate);
+	vLayout.add(btn_showParents);
+	vLayout.add(btn_showNeighbors);
+	vLayout.add(btn_showLinks);
+	vLayout.add(btn_showValues);
+
+	Layout root(0, 0, Window::GetWidth(), Window::GetHeight());
+	root.add(vLayout);
+	Window::SetLayout(root);
+
 
 	Grid grid(64, 64, 10, 10, darkGrey);
 	grid.setPosition(sf::Vector2f(50, 50));
@@ -99,27 +96,20 @@ int main()
 	renderer.setFont(font);
 
 	// ///////////////////////////// APPLICATION LOOP
-	while (window.isOpen())
+	while (Window::IsOpen())
 	{
-		Time::LockFramerate(FRAMERATE);
-		Input::Update(window);
-
-		button.update(); // buttons must be updated before using them
-		btn_showParents.update();
-		btn_showNeighbors.update();
-		btn_showValues.update();
-		btn_showLinks.update();
+		Window::Update();
 
 		// ///////////////////////// GAME LOGIC
 		if (Input::GetKeyDown(sf::Keyboard::Escape))
 		{
-			window.close();
+			Window::Close();
 		}
 
 		fpsText.setString("FPS: " + floatToStr(Time::GetFps(), 0));
 		generationText.setString("Nbr generation: " + floatToStr(nbGeneration, 0));
 
-		if (button.click() || Input::GetKeyDown(sf::Keyboard::G))
+		if (btn_Generate.click() || Input::GetKeyDown(sf::Keyboard::G))
 		{
 			cout << "Click !" << endl; 
 			nbGeneration++;
@@ -161,24 +151,18 @@ int main()
 		renderer.update();
 
 		// ///////////////////////// START DRAW
-		window.clear();
+		Window::Clear();
 
-		window.draw(fpsText);
-		window.draw(generationText);
-		window.draw(button);
-		window.draw(btn_showNeighbors);
-		window.draw(btn_showValues);
-		window.draw(btn_showParents);
-		window.draw(btn_showLinks);
+		Window::Draw(fpsText);
+		Window::Draw();
 
-		window.draw(grid);
-
-		window.draw(rect);
-
-		window.draw(renderer);
+		Window::Draw(generationText);
+		Window::Draw(grid);
+		Window::Draw(rect);
+		Window::Draw(renderer);
 
 		// ///////////////////////// END DRAW
-		window.display();
+		Window::Display();
 	}
 
 	return 0;

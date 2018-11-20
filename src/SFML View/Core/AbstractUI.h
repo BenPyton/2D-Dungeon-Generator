@@ -15,53 +15,82 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Input.h"
+#include "UIStyle.h"
 
 using namespace std;
-
-enum UIState {
-	UI_NORMAL, UI_HOVERED, UI_FOCUSED, UI_CLICKED, UI_DISABLED, UI_NB_STATE
-};
-
-struct UIStateStyle {
-	sf::Color bgCol;
-	sf::Color fgCol;
-	sf::Color outCol;
-};
 
 class AbstractUI : public sf::Drawable
 {
 protected:
+	AbstractUI* m_parent;
+	class View* m_viewParent;
+
 	bool m_enabled;
-	sf::RectangleShape m_rect;
-	//sf::Text m_text;
+	sf::RectangleShape* m_rect;
 
 	UIState m_state;
-	UIStateStyle m_styles[UIState::UI_NB_STATE];
+	UIStyle* m_style;
 
-protected:
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	sf::Vector2f m_anchorMin, m_anchorMax;
+	sf::Vector2f m_position;
+	sf::Vector2f m_size;
+	sf::Vector2f m_pivot;
+	float m_marginTop, m_marginLeft, m_marginBottom, m_marginRight;
+
+	bool m_horiStretch, m_vertStretch;
 
 public:
-	AbstractUI(int x, int y, int width, int height);
-	~AbstractUI();
+	AbstractUI(int x, int y, int width, int height, UIStyle* style = &UIStyle::Default);
+	virtual ~AbstractUI();
 
 	// Accessors
-	//void setText(std::string text, sf::Font &font, int size);
-	void setOutlineThickness(float thickness);
+	void setAnchor(sf::Vector2f anchor);
+
+	void setAnchorMin(sf::Vector2f anchorMin);
+	sf::Vector2f getAnchorMin();
+
+	void setAnchorMax(sf::Vector2f anchorMax);
+	sf::Vector2f getAnchorMax();
+
+	void setPivot(sf::Vector2f pivot);
+	sf::Vector2f getPivot();
+
 	void setPosition(sf::Vector2f position);
-	void setSize(sf::Vector2f size);
-	void setEnabled(bool enabled);
-	float getOutlineThickness();
 	sf::Vector2f getPosition();
+
+	void setStretch(bool horizontal, bool vertical);
+
+	void setSize(sf::Vector2f size);
 	sf::Vector2f getSize();
+
+	sf::Vector2f getRealPosition();
+	sf::Vector2f getRealSize();
+
+	void setEnabled(bool enabled);
 	bool getEnabled();
 
-	void mapStyle(UIState state, sf::Color foregroundColor, sf::Color backgroundColor, sf::Color outlineColor);
+	void setParent(AbstractUI* parent) { m_parent = parent; }
+	AbstractUI* getParent() { return m_parent; }
+
+	void setViewParent(View* parent) { m_viewParent = parent; }
+	View* getViewParent() { return m_viewParent; }
+
+	void setStyle(UIStyle* style) { m_style = style; }
+	UIStyle* getStyle() { return m_style; }
+
+	void setMargins(float left, float right, float top, float bottom);
+	void getMargins(float& left, float& right, float& top, float& bottom);
 
 	bool hovered(sf::Vector2f pos);
 	bool click();
 	virtual void update();
 
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+protected:
+	virtual void _updateState();
+	virtual void _updateTransform();
+	virtual void _updateStyle();
 };
 
 #endif // _ABSTRACTUI_H

@@ -13,7 +13,7 @@
 #define _INPUT_H
 
 #include <iostream>
-#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
 
@@ -36,12 +36,12 @@ private:
 	sf::String m_enteredText;
 
 	Input();
-	void _Update(sf::Window &window);
+	void _Update(/*sf::RenderWindow &window*/);
 
 public:
 	~Input();
 
-	static void Update(sf::Window &window);
+	static void Update(/*sf::RenderWindow &window*/);
 
 	static bool GetKeyDown(sf::Keyboard::Key key);
 	static bool GetKeyUp(sf::Keyboard::Key key);

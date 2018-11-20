@@ -11,6 +11,7 @@
 
 #include "stdafx.h"
 #include "Input.h"
+#include "Window.h"
 
 Input Input::m_instance = Input();
 
@@ -22,7 +23,7 @@ Input::Input()
 	m_mouseScroll = 0.0f;
 }
 
-void Input::_Update(sf::Window & window)
+void Input::_Update(/*sf::RenderWindow & window*/)
 {
 	// Reset all pressed and release state
 	memset(m_keyPressed, 0, sf::Keyboard::Key::KeyCount * sizeof(bool));
@@ -33,13 +34,24 @@ void Input::_Update(sf::Window & window)
 	m_enteredText.clear();
 
 	sf::Event event;
-	while (window.pollEvent(event))
+	while (/*window.pollEvent(event)*/Window::GetWindow()->pollEvent(event))
 	{
 
 		switch (event.type)
 		{
 		case sf::Event::Closed:
-			window.close();
+			//window.close();
+			Window::Close();
+			break;
+		case sf::Event::Resized:
+			// update the view to the new size of the window
+			//window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height))); 
+			Window::GetWindow()->setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
+			if (nullptr != Window::GetLayout())
+			{
+				Window::GetLayout()->setPosition(sf::Vector2f(0, 0));
+				Window::GetLayout()->setSize(sf::Vector2f(event.size.width, event.size.height));
+			}
 			break;
 		case sf::Event::MouseMoved:
 			m_mousePos.x = event.mouseMove.x;
@@ -88,9 +100,9 @@ Input::~Input()
 {
 }
 
-void Input::Update(sf::Window & window)
+void Input::Update(/*sf::RenderWindow & window*/)
 {
-	m_instance._Update(window);
+	m_instance._Update(/*window*/);
 }
 
 bool Input::GetKeyDown(sf::Keyboard::Key key)

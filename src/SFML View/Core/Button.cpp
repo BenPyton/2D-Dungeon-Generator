@@ -11,12 +11,22 @@
 
 #include "stdafx.h"
 #include "Button.h"
+#include <cassert>
 
 
-Button::Button(int x, int y, int width, int height)
-	: AbstractUI(x, y, width, height)
+Button::Button(int x, int y, int width, int height, UIStyle* style)
+	: AbstractUI(x, y, width, height, style)
 {
-	//m_text = sf::Text();
+	m_text = new sf::Text();
+	assert(nullptr != m_text);
+}
+
+Button::~Button()
+{
+	if (nullptr != m_text)
+	{
+		delete m_text;
+	}
 }
 
 //void Button::SetNormalTexture(int x, int y, int w, int h)
@@ -31,24 +41,43 @@ Button::Button(int x, int y, int width, int height)
 
 void Button::setText(std::string text, sf::Font &font, int size)
 {
-	m_text.setFont(font);
-	m_text.setString(text);
-	m_text.setCharacterSize(size);
-	//m_text.setFillColor(sf::Color::Black);
-	sf::FloatRect textRect = m_text.getLocalBounds();
-	float posX = m_rect.getPosition().x + (int)(m_rect.getSize().x) / 2 - (int)(textRect.width + textRect.left) / 2;
-	float posY = m_rect.getPosition().y + (int)(m_rect.getSize().y) / 2 - m_text.getCharacterSize() * 0.6f;
-	m_text.setPosition(posX, posY);
+	if (nullptr != m_text)
+	{
+		m_text->setFont(font);
+		m_text->setString(text);
+		m_text->setCharacterSize(size);
+	}
 }
 
-void Button::update()
-{
-	AbstractUI::update();
-	m_text.setFillColor(m_styles[m_state].fgCol);
-}
+//void Button::update()
+//{
+//	AbstractUI::update();
+//
+//	/*sf::FloatRect textRect = m_text->getLocalBounds();
+//	float posX = m_rect->getPosition().x + (int)(m_rect->getSize().x) / 2 - (int)(textRect.width + textRect.left) / 2;
+//	float posY = m_rect->getPosition().y + (int)(m_rect->getSize().y) / 2 - m_text->getCharacterSize() * 0.6f;
+//	m_text->setPosition(posX, posY);
+//
+//	m_text->setColor((*m_style)[m_state].fgCol);*/
+//}
 
 void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	AbstractUI::draw(target, states);
-	target.draw(m_text);
+	target.draw(*m_text);
+}
+
+void Button::_updateTransform()
+{
+	AbstractUI::_updateTransform();
+	sf::FloatRect textRect = m_text->getLocalBounds();
+	float posX = m_rect->getPosition().x + (int)(m_rect->getSize().x) / 2 - (int)(textRect.width + textRect.left) / 2;
+	float posY = m_rect->getPosition().y + (int)(m_rect->getSize().y) / 2 - m_text->getCharacterSize() * 0.6f;
+	m_text->setPosition(posX, posY);
+}
+
+void Button::_updateStyle()
+{
+	AbstractUI::_updateStyle();
+	m_text->setFillColor((*m_style)[m_state].fgCol);
 }
