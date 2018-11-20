@@ -27,6 +27,7 @@ Window::~Window()
 	if (nullptr != m_window)
 	{
 		delete m_window;
+		m_window = nullptr;
 	}
 }
 
@@ -103,6 +104,11 @@ void Window::Close()
 {
 	assert(nullptr != m_instance.m_window);
 	m_instance.m_window->close();
+	/*if (nullptr != m_instance.m_window)
+	{
+		delete m_instance.m_window;
+		m_instance.m_window = nullptr;
+	}*/
 }
 
 float Window::GetWidth()
