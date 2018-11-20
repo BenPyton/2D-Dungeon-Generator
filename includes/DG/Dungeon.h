@@ -37,7 +37,6 @@ class LIBDUNGEON_API Dungeon
 {
 private:
 	vector<Room*> m_roomList;
-	//uint64_t m_width, m_height;
 
 	DungeonParams m_params;
 
@@ -52,12 +51,7 @@ public:
 	inline Room* getRoom(int index) { return m_roomList[index]; }
 	Room* getRoomAt(uint64_t x, uint64_t y);
 
-	/*void setSize(uint64_t width, uint64_t height);
-	inline uint64_t getWidth() { return m_width; }
-	inline uint64_t getHeight() { return m_height; }*/
-
 	void generate(int iteration);
-
 
 	short getValue(uint64_t x, uint64_t y);
 	void setValue(uint64_t x, uint64_t y, short value);
@@ -83,4 +77,25 @@ private:
 	void _SetArraySize();
 };
 
+// Functions to wrap in a Room.cs for Unity
+#ifdef _UNITY
+extern "C"
+{
+	LIBDUNGEON_API Dungeon* Lib_Dungeon_constructor(uint64_t _width, uint64_t _height);
+	LIBDUNGEON_API Dungeon* Lib_Dungeon_paramsConstructor(const DungeonParams& _params);
+	LIBDUNGEON_API void Lib_Dungeon_destructor(Dungeon* _this);
+
+	LIBDUNGEON_API size_t Lib_Dungeon_getRoomCount(Dungeon* _this);
+	LIBDUNGEON_API Room* Lib_Dungeon_getRoom(Dungeon* _this, int _index);
+	LIBDUNGEON_API Room* Lib_Dungeon_getRoomAt(Dungeon* _this, uint64_t _x, uint64_t _y);
+
+	LIBDUNGEON_API void Lib_Dungeon_generate(Dungeon* _this, int _iteration);
+
+	LIBDUNGEON_API short Lib_Dungeon_getValue(Dungeon* _this, uint64_t x, uint64_t _y);
+	LIBDUNGEON_API void Lib_Dungeon_setValue(Dungeon* _this, uint64_t _x, uint64_t _y, short _value);
+
+	LIBDUNGEON_API DungeonParams Lib_Dungeon_getParams(Dungeon* _this);
+	LIBDUNGEON_API void Lib_Dungeon_setParams(Dungeon* _this, const DungeonParams& _params);
+}
+#endif // _UNITY
 #endif // _DUNGEON_H

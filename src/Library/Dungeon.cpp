@@ -432,3 +432,58 @@ bool Dungeon::_GetEmptyCell(Room * r, int & x, int & y)
 	return success;
 }
 
+
+
+// Functions to wrap in a Room.cs for Unity
+#ifdef _UNITY
+
+Dungeon* Lib_Dungeon_constructor(uint64_t _width, uint64_t _height)
+{
+	return new Dungeon(_width, _height);
+}
+Dungeon* Lib_Dungeon_paramsConstructor(const DungeonParams& _params)
+{
+	return new Dungeon(_params);
+}
+void Lib_Dungeon_destructor(Dungeon* _this)
+{
+	delete _this;
+}
+
+size_t Lib_Dungeon_getRoomCount(Dungeon* _this)
+{
+	return _this->getRoomCount();
+}
+Room* Lib_Dungeon_getRoom(Dungeon* _this, int _index)
+{
+	return _this->getRoom(_index);
+}
+Room* Lib_Dungeon_getRoomAt(Dungeon* _this, uint64_t _x, uint64_t _y)
+{
+	return _this->getRoomAt(_x, _y);
+}
+
+void Lib_Dungeon_generate(Dungeon* _this, int _iteration)
+{
+	_this->generate(_iteration);
+}
+
+short Lib_Dungeon_getValue(Dungeon* _this, uint64_t _x, uint64_t _y)
+{
+	return _this->getValue(_x, _y);
+}
+void Lib_Dungeon_setValue(Dungeon* _this, uint64_t _x, uint64_t _y, short _value)
+{
+	_this->setValue(_x, _y, _value);
+}
+
+DungeonParams Lib_Dungeon_getParams(Dungeon* _this)
+{
+	return _this->getParams();
+}
+void Lib_Dungeon_setParams(Dungeon* _this, const DungeonParams& _params)
+{
+	_this->setParams(_params);
+}
+
+#endif // _DUNGEON_H
