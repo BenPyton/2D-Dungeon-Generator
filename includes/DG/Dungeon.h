@@ -75,7 +75,7 @@ private:
 
 	bool _GetEmptyCell(int& x, int& y, Room* r = nullptr);
 
-	void _SetArraySize();
+	void _SetArraySize(uint64_t _width, uint64_t _height);
 };
 
 // Functions to wrap in a Room.cs for Unity

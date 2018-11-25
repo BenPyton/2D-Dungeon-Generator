@@ -20,7 +20,7 @@ Dungeon::Dungeon(uint64_t width, uint64_t height)
 {
 	m_params.width = width;
 	m_params.height = height;
-	_SetArraySize();
+	_SetArraySize(m_params.width, m_params.height);
 
 	srand(time(NULL));
 }
@@ -28,7 +28,7 @@ Dungeon::Dungeon(uint64_t width, uint64_t height)
 Dungeon::Dungeon(const DungeonParams & params)
 	: m_params(params), m_array(nullptr)
 {
-	_SetArraySize();
+	_SetArraySize(m_params.width, m_params.height);
 
 	srand(time(NULL));
 }
@@ -54,15 +54,15 @@ Room * Dungeon::getRoomAt(uint64_t x, uint64_t y)
 	return room;
 }
 
-void Dungeon::_SetArraySize()
+void Dungeon::_SetArraySize(uint64_t _width, uint64_t _height)
 {
 	_ClearArray();
 
-	m_array = (short**)malloc(m_params.height * sizeof(short*));
-	for (int i = 0; i < m_params.height; i++)
+	m_array = (short**)malloc(_height * sizeof(short*));
+	for (int i = 0; i < _height; i++)
 	{
-		m_array[i] = (short*)malloc(m_params.width * sizeof(short));
-		memset(m_array[i], 0, m_params.width * sizeof(short));
+		m_array[i] = (short*)malloc(_width * sizeof(short));
+		memset(m_array[i], 0, _width * sizeof(short));
 	}
 }
 
@@ -98,8 +98,8 @@ void Dungeon::setValue(uint64_t x, uint64_t y, short value)
 
 void Dungeon::setParams(const DungeonParams & params)
 {
+	_SetArraySize(params.width, params.height);
 	m_params = params;
-	_SetArraySize();
 }
 
 int Dungeon::_RandRange(int min, int max)

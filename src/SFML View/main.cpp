@@ -74,11 +74,13 @@ int main()
 	input_dungeonWidth.setPlaceholder("Width");
 	input_dungeonWidth.setCharacterSize(16);
 	input_dungeonWidth.setFont(font);
+	input_dungeonWidth.setInt(32);
 
 	InputField input_dungeonHeight(0, 0, 70, 30, &style);
 	input_dungeonHeight.setPlaceholder("Height");
 	input_dungeonHeight.setCharacterSize(16);
 	input_dungeonHeight.setFont(font);
+	input_dungeonHeight.setInt(32);
 
 	HorizontalLayout hLayout_inputDungeonSize(0, 0, 0, 30);
 	hLayout_inputDungeonSize.setSpacing(10);
@@ -89,16 +91,35 @@ int main()
 	input_roomMinWidth.setPlaceholder("min W");
 	input_roomMinWidth.setCharacterSize(16);
 	input_roomMinWidth.setFont(font);
+	input_roomMinWidth.setInt(3);
 
 	InputField input_roomMinHeight(0, 0, 70, 30, &style);
 	input_roomMinHeight.setPlaceholder("min H");
 	input_roomMinHeight.setCharacterSize(16);
 	input_roomMinHeight.setFont(font);
+	input_roomMinHeight.setInt(3);
 
 	HorizontalLayout hLayout_inputRoomMinSize(0, 0, 0, 30);
 	hLayout_inputRoomMinSize.setSpacing(10);
 	hLayout_inputRoomMinSize.add(input_roomMinWidth);
 	hLayout_inputRoomMinSize.add(input_roomMinHeight);
+
+	InputField input_roomMaxWidth(0, 0, 70, 30, &style);
+	input_roomMaxWidth.setPlaceholder("min W");
+	input_roomMaxWidth.setCharacterSize(16);
+	input_roomMaxWidth.setFont(font);
+	input_roomMaxWidth.setInt(15);
+
+	InputField input_roomMaxHeight(0, 0, 70, 30, &style);
+	input_roomMaxHeight.setPlaceholder("min H");
+	input_roomMaxHeight.setCharacterSize(16);
+	input_roomMaxHeight.setFont(font);
+	input_roomMaxHeight.setInt(15);
+
+	HorizontalLayout hLayout_inputRoomMaxSize(0, 0, 0, 30);
+	hLayout_inputRoomMaxSize.setSpacing(10);
+	hLayout_inputRoomMaxSize.add(input_roomMaxWidth);
+	hLayout_inputRoomMaxSize.add(input_roomMaxHeight);
 
 	VerticalLayout vLayout(0, 0, 170, 200);
 	vLayout.setAnchorMin(sf::Vector2f(1, 0));
@@ -106,8 +127,9 @@ int main()
 	vLayout.setPivot(sf::Vector2f(1, 0));
 	vLayout.setSpacing(10);
 	vLayout.setPaddings(10, 10, 10, 10);
-	//vLayout.add(hLayout_inputDungeonSize);
-	//vLayout.add(hLayout_inputRoomMinSize);
+	vLayout.add(hLayout_inputDungeonSize);
+	vLayout.add(hLayout_inputRoomMinSize);
+	vLayout.add(hLayout_inputRoomMaxSize);
 	vLayout.add(btn_Generate);
 	vLayout.add(btn_showParents);
 	vLayout.add(btn_showNeighbors);
@@ -150,6 +172,15 @@ int main()
 			cout << "Click !" << endl; 
 			nbGeneration++;
 
+			params.width = input_dungeonWidth.getInt();
+			params.height = input_dungeonHeight.getInt();
+			params.roomMinWidth = input_roomMinWidth.getInt();
+			params.roomMaxWidth = input_roomMaxWidth.getInt();
+			params.roomMinHeight = input_roomMinHeight.getInt();
+			params.roomMaxHeight = input_roomMaxHeight.getInt();
+			dungeon.setParams(params);
+			grid.setSize(params.width, params.height);
+			grid.setCellSize(640 / params.width, 640 / params.height);
 			dungeon.generate(1);
 			renderer.generate();
 		}
