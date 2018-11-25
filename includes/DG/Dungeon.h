@@ -66,13 +66,14 @@ private:
 	void _ClearArray();
 
 	void _GenerateRooms(int iteration);
+	void _SplitRoomRecursive(int _iteration, Room* _r, bool _vertical);
 	void _FillArray();
 
 	void _ResetArray();
 
 	void _ListNeighbors(Room* r);
 
-	bool _GetEmptyCell(Room* r, int& x, int& y);
+	bool _GetEmptyCell(int& x, int& y, Room* r = nullptr);
 
 	void _SetArraySize();
 };

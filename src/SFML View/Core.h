@@ -10,6 +10,7 @@
 #include "Core/AbstractUI.h"
 #include "Core/Layout.h"
 #include "Core/VerticalLayout.h"
+#include "Core/HorizontalLayout.h"
 #include "Core/View.h"
 #include "Core/Button.h"
 #include "Core/InputField.h"

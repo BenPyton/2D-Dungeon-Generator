@@ -14,6 +14,7 @@ using namespace std;
 int main()
 {
 	Window::Create(sf::VideoMode(900, 740), "2D Dungeon Generator");
+	Window::SetFramerate(120);
 
 	// Load font
 	sf::Font font;
@@ -24,6 +25,15 @@ int main()
 
 	sf::Color lightGrey(200, 200, 200);
 	sf::Color darkGrey(60, 60, 60);
+
+	DungeonParams params = DungeonParams::basic;
+	params.width = 32;
+	params.height = 32;
+	params.roomMinWidth = 3;
+	params.roomMinHeight = 3;
+	params.roomMaxWidth = 15;
+	params.roomMaxHeight = 15;
+	Dungeon dungeon(params);
 
 	sf::Text fpsText("FPS: ??", font, 16);
 	fpsText.setPosition(10, 10);
@@ -60,12 +70,44 @@ int main()
 	btn_showValues.setText("Show Values", font, 16);
 
 
+	InputField input_dungeonWidth(0, 0, 70, 30, &style);
+	input_dungeonWidth.setPlaceholder("Width");
+	input_dungeonWidth.setCharacterSize(16);
+	input_dungeonWidth.setFont(font);
+
+	InputField input_dungeonHeight(0, 0, 70, 30, &style);
+	input_dungeonHeight.setPlaceholder("Height");
+	input_dungeonHeight.setCharacterSize(16);
+	input_dungeonHeight.setFont(font);
+
+	HorizontalLayout hLayout_inputDungeonSize(0, 0, 0, 30);
+	hLayout_inputDungeonSize.setSpacing(10);
+	hLayout_inputDungeonSize.add(input_dungeonWidth);
+	hLayout_inputDungeonSize.add(input_dungeonHeight);
+
+	InputField input_roomMinWidth(0, 0, 70, 30, &style);
+	input_roomMinWidth.setPlaceholder("min W");
+	input_roomMinWidth.setCharacterSize(16);
+	input_roomMinWidth.setFont(font);
+
+	InputField input_roomMinHeight(0, 0, 70, 30, &style);
+	input_roomMinHeight.setPlaceholder("min H");
+	input_roomMinHeight.setCharacterSize(16);
+	input_roomMinHeight.setFont(font);
+
+	HorizontalLayout hLayout_inputRoomMinSize(0, 0, 0, 30);
+	hLayout_inputRoomMinSize.setSpacing(10);
+	hLayout_inputRoomMinSize.add(input_roomMinWidth);
+	hLayout_inputRoomMinSize.add(input_roomMinHeight);
+
 	VerticalLayout vLayout(0, 0, 170, 200);
 	vLayout.setAnchorMin(sf::Vector2f(1, 0));
 	vLayout.setAnchorMax(sf::Vector2f(1, 1));
 	vLayout.setPivot(sf::Vector2f(1, 0));
 	vLayout.setSpacing(10);
 	vLayout.setPaddings(10, 10, 10, 10);
+	//vLayout.add(hLayout_inputDungeonSize);
+	//vLayout.add(hLayout_inputRoomMinSize);
 	vLayout.add(btn_Generate);
 	vLayout.add(btn_showParents);
 	vLayout.add(btn_showNeighbors);
@@ -77,19 +119,13 @@ int main()
 	Window::SetLayout(root);
 
 
-	Grid grid(64, 64, 10, 10, darkGrey);
+	Grid grid(params.width, params.height, 640 / params.width, 640 / params.height, darkGrey);
 	grid.setPosition(sf::Vector2f(50, 50));
 
 	sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
 	rect.setFillColor(lightGrey);
 
 
-	DungeonParams params = DungeonParams::basic;
-	params.width = grid.getWidth();
-	params.height = grid.getHeight();
-	params.roomMinWidth = 5;
-	params.roomMinHeight = 5;
-	Dungeon dungeon(params);
 
 	// render dungeon in SFML
 	DungeonRenderer renderer(&dungeon, &grid);
@@ -114,7 +150,7 @@ int main()
 			cout << "Click !" << endl; 
 			nbGeneration++;
 
-			dungeon.generate(5);
+			dungeon.generate(1);
 			renderer.generate();
 		}
 
