@@ -10,7 +10,7 @@
 */
 
 #include "DG/Dungeon.h"
-#include <ctime>
+#include <chrono>
 #include <cassert>
 
 #define min(x, y) (x < y) ? x : y
@@ -21,16 +21,12 @@ Dungeon::Dungeon(uint64_t width, uint64_t height)
 	m_params.width = width;
 	m_params.height = height;
 	_SetArraySize(m_params.width, m_params.height);
-
-	srand(time(NULL));
 }
 
 Dungeon::Dungeon(const DungeonParams & params)
 	: m_params(params), m_array(nullptr)
 {
 	_SetArraySize(m_params.width, m_params.height);
-
-	srand(time(NULL));
 }
 
 Dungeon::~Dungeon()
@@ -66,9 +62,19 @@ void Dungeon::_SetArraySize(uint64_t _width, uint64_t _height)
 	}
 }
 
-void Dungeon::generate(int iteration)
+void Dungeon::generate()
 {
 	//_GenerateRooms(iteration);
+	if (m_params.randomSeed)
+	{
+		m_seed = chrono::high_resolution_clock::now().time_since_epoch().count();
+	}
+	else
+	{
+		m_seed = m_params.seed;
+	}
+	printf("Seed: %u\n", m_seed);
+	srand(m_seed);
 
 	_ClearRoomList();
 	// create root room
@@ -595,9 +601,9 @@ Room* Lib_Dungeon_getRoomAt(Dungeon* _this, uint64_t _x, uint64_t _y)
 	return _this->getRoomAt(_x, _y);
 }
 
-void Lib_Dungeon_generate(Dungeon* _this, int _iteration)
+void Lib_Dungeon_generate(Dungeon* _this)
 {
-	_this->generate(_iteration);
+	_this->generate();
 }
 
 short Lib_Dungeon_getValue(Dungeon* _this, uint64_t _x, uint64_t _y)

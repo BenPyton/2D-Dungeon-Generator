@@ -22,7 +22,9 @@ const DungeonParams DungeonParams::zero(
 	0, // maxChest
 	0, // maxChestPerRoom
 	0, // maxEnemy
-	0  // maxEnemyPerRoom
+	0, // maxEnemyPerRoom
+	0, // seed
+	false // randomSeed
 	);
 
 const DungeonParams DungeonParams::basic(
@@ -36,15 +38,17 @@ const DungeonParams DungeonParams::basic(
 	5, // maxChest
 	2, // maxChestPerRoom
 	20,// maxEnemy
-	5  // maxEnemyPerRoom
+	5,  // maxEnemyPerRoom
+	0, // seed
+	true // randomSeed
 	);
 
-DungeonParams::DungeonParams(uint64_t _width, uint64_t _height, uint64_t _roomMinWidth, uint64_t _roomMinHeight, uint64_t _roomMaxWidth, uint64_t _roomMaxHeight, uint8_t _iteration, uint8_t _maxChest, uint8_t _maxChestPerRoom, uint8_t _maxEnemy, uint8_t _maxEnemyPerRoom)
-	: width(_width), height(_height), roomMinWidth(_roomMinWidth), roomMinHeight(_roomMinHeight), roomMaxWidth(_roomMaxWidth), roomMaxHeight(_roomMaxHeight), iteration(_iteration), maxChest(_maxChest), maxChestPerRoom(_maxChestPerRoom), maxEnemy(_maxEnemy), maxEnemyPerRoom(_maxEnemyPerRoom)
+DungeonParams::DungeonParams(uint64_t _width, uint64_t _height, uint64_t _roomMinWidth, uint64_t _roomMinHeight, uint64_t _roomMaxWidth, uint64_t _roomMaxHeight, uint8_t _iteration, uint8_t _maxChest, uint8_t _maxChestPerRoom, uint8_t _maxEnemy, uint8_t _maxEnemyPerRoom, uint64_t _seed, bool _randomSeed)
+	: width(_width), height(_height), roomMinWidth(_roomMinWidth), roomMinHeight(_roomMinHeight), roomMaxWidth(_roomMaxWidth), roomMaxHeight(_roomMaxHeight), iteration(_iteration), maxChest(_maxChest), maxChestPerRoom(_maxChestPerRoom), maxEnemy(_maxEnemy), maxEnemyPerRoom(_maxEnemyPerRoom), seed(_seed), randomSeed(_randomSeed)
 {
 }
 
-DungeonParams Lib_DungeonParams_constructor(uint64_t _width, uint64_t _height, uint64_t _roomMinWidth, uint64_t _roomMinHeight, uint64_t _roomMaxWidth, uint64_t _roomMaxHeight, uint8_t _iteration, uint8_t _maxChest, uint8_t _maxChestPerRoom, uint8_t _maxEnemy, uint8_t _maxEnemyPerRoom)
+DungeonParams Lib_DungeonParams_constructor(uint64_t _width, uint64_t _height, uint64_t _roomMinWidth, uint64_t _roomMinHeight, uint64_t _roomMaxWidth, uint64_t _roomMaxHeight, uint8_t _iteration, uint8_t _maxChest, uint8_t _maxChestPerRoom, uint8_t _maxEnemy, uint8_t _maxEnemyPerRoom, uint64_t _seed, bool _randomSeed)
 {
-	return DungeonParams(_width, _height, _roomMinWidth, _roomMinHeight, _roomMaxWidth, _roomMaxHeight, _iteration, _maxChest, _maxChestPerRoom, _maxEnemy, _maxEnemyPerRoom);
+	return DungeonParams(_width, _height, _roomMinWidth, _roomMinHeight, _roomMaxWidth, _roomMaxHeight, _iteration, _maxChest, _maxChestPerRoom, _maxEnemy, _maxEnemyPerRoom, _seed, _randomSeed);
 }

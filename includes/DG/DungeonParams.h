@@ -32,6 +32,8 @@ extern "C"
 		uint8_t maxChestPerRoom;
 		uint8_t maxEnemy;
 		uint8_t maxEnemyPerRoom;
+		uint64_t seed;
+		bool randomSeed;
 
 		static const DungeonParams basic;
 		static const DungeonParams zero;
@@ -47,7 +49,9 @@ extern "C"
 			uint8_t _maxChest,
 			uint8_t _maxChestPerRoom,
 			uint8_t _maxEnemy,
-			uint8_t _maxEnemyPerRoom
+			uint8_t _maxEnemyPerRoom,
+			uint64_t _seed,
+			bool _randomSeed
 		);
 	};
 
@@ -65,7 +69,9 @@ extern "C"
 		uint8_t _maxChest,
 		uint8_t _maxChestPerRoom,
 		uint8_t _maxEnemy,
-		uint8_t _maxEnemyPerRoom
+		uint8_t _maxEnemyPerRoom,
+		uint64_t _seed,
+		bool _randomSeed
 	);
 #endif
 }

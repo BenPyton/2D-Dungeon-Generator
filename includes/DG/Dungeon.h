@@ -40,7 +40,9 @@ private:
 
 	DungeonParams m_params;
 
-	short **m_array;
+	short **m_array = nullptr;
+
+	uint64_t m_seed;
 
 public:
 	Dungeon(uint64_t width, uint64_t height);
@@ -51,7 +53,7 @@ public:
 	inline Room* getRoom(int index) { return m_roomList[index]; }
 	Room* getRoomAt(uint64_t x, uint64_t y);
 
-	void generate(int iteration);
+	void generate();
 
 	short getValue(uint64_t x, uint64_t y);
 	void setValue(uint64_t x, uint64_t y, short value);
@@ -90,7 +92,7 @@ extern "C"
 	LIBDUNGEON_API Room* Lib_Dungeon_getRoom(Dungeon* _this, int _index);
 	LIBDUNGEON_API Room* Lib_Dungeon_getRoomAt(Dungeon* _this, uint64_t _x, uint64_t _y);
 
-	LIBDUNGEON_API void Lib_Dungeon_generate(Dungeon* _this, int _iteration);
+	LIBDUNGEON_API void Lib_Dungeon_generate(Dungeon* _this);
 
 	LIBDUNGEON_API short Lib_Dungeon_getValue(Dungeon* _this, uint64_t x, uint64_t _y);
 	LIBDUNGEON_API void Lib_Dungeon_setValue(Dungeon* _this, uint64_t _x, uint64_t _y, short _value);

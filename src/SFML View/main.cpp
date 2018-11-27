@@ -33,6 +33,8 @@ int main()
 	params.roomMinHeight = 3;
 	params.roomMaxWidth = 15;
 	params.roomMaxHeight = 15;
+	params.randomSeed = false;
+	params.seed = 0;
 	Dungeon dungeon(params);
 
 	UIStyle style;
@@ -122,6 +124,19 @@ int main()
 	hLayout_inputRoomMaxSize.add(input_roomMaxWidth);
 	hLayout_inputRoomMaxSize.add(input_roomMaxHeight);
 
+
+	Label lbl_seed(0, 0, 0, 20, &style);
+	lbl_seed.setText("Seed");
+	lbl_seed.setAlignement(ALIGN_RIGHT);
+
+	InputField input_seed(0, 0, 70, 30, &style);
+	input_seed.setPlaceholder("seed");
+	input_seed.setInt(0);
+
+	Toggle toggle_randomSeed(0, 0, 0, 30, &style);
+	toggle_randomSeed.setText("Random", font, 16);
+	toggle_randomSeed.setChecked(true);
+
 	VerticalLayout vLayout(0, 0, 170, 200);
 	vLayout.setAnchorMin(sf::Vector2f(1, 0));
 	vLayout.setAnchorMax(sf::Vector2f(1, 1));
@@ -134,6 +149,9 @@ int main()
 	vLayout.add(hLayout_inputRoomMinSize);
 	vLayout.add(lbl_roomMaxSize);
 	vLayout.add(hLayout_inputRoomMaxSize);
+	vLayout.add(lbl_seed);
+	vLayout.add(input_seed);
+	vLayout.add(toggle_randomSeed);
 	vLayout.add(btn_Generate);
 	vLayout.add(btn_showParents);
 	vLayout.add(btn_showNeighbors);
@@ -173,7 +191,7 @@ int main()
 
 		if (btn_Generate.click() || Input::GetKeyDown(sf::Keyboard::G))
 		{
-			cout << "Click !" << endl; 
+			//cout << "Click !" << endl; 
 			nbGeneration++;
 
 			params.width = input_dungeonWidth.getInt();
@@ -182,10 +200,12 @@ int main()
 			params.roomMaxWidth = input_roomMaxWidth.getInt();
 			params.roomMinHeight = input_roomMinHeight.getInt();
 			params.roomMaxHeight = input_roomMaxHeight.getInt();
+			params.seed = input_seed.getInt();
+			params.randomSeed = toggle_randomSeed.getChecked();
 			dungeon.setParams(params);
 			grid.setSize(params.width, params.height);
 			grid.setCellSize(640 / params.width, 640 / params.height);
-			dungeon.generate(1);
+			dungeon.generate();
 			renderer.generate();
 		}
 
