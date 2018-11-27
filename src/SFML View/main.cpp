@@ -35,19 +35,21 @@ int main()
 	params.roomMaxHeight = 15;
 	Dungeon dungeon(params);
 
-	sf::Text fpsText("FPS: ??", font, 16);
-	fpsText.setPosition(10, 10);
-	fpsText.setFillColor(lightGrey);
-
-	int nbGeneration = 0;
-	sf::Text generationText("Nbr Generation: ??", font, 16);
-	generationText.setPosition(10, Window::GetHeight() - 26);
-	generationText.setFillColor(lightGrey);
-
-	UIStyle style; 
+	UIStyle style;
 	style.mapStyle(UI_NORMAL, lightGrey, sf::Color::Black, lightGrey, 1.0f);
 	style.mapStyle(UI_HOVERED, lightGrey, sf::Color(50, 50, 50), lightGrey, 1.0f);
 	style.mapStyle(UI_CLICKED, sf::Color::Black, lightGrey, lightGrey, 1.0f);
+	style.setFont(font, 16);
+
+	Label lbl_fps(0, 0, 200, 30, &style);
+	lbl_fps.setAnchor(sf::Vector2f(0, 0));
+	lbl_fps.setMargins(10, 10, 10, 10);
+
+	int nbGeneration = 0;
+	Label lbl_generation(0, 0, 200, 30, &style);
+	lbl_generation.setAnchor(sf::Vector2f(0, 1));
+	lbl_generation.setMargins(10, 10, 10, 10);
+	lbl_generation.setPivot(sf::Vector2f(0, 1));
 
 	// Button Generate
 	Button btn_Generate(0, 0, 0, 30, &style);
@@ -69,17 +71,16 @@ int main()
 	Toggle btn_showValues(0, 0, 0, 30, &style);
 	btn_showValues.setText("Show Values", font, 16);
 
+	Label lbl_dungeonSize(0, 0, 0, 20, &style);
+	lbl_dungeonSize.setText("Dungeon Size");
+	lbl_dungeonSize.setAlignement(ALIGN_RIGHT);
 
 	InputField input_dungeonWidth(0, 0, 70, 30, &style);
 	input_dungeonWidth.setPlaceholder("Width");
-	input_dungeonWidth.setCharacterSize(16);
-	input_dungeonWidth.setFont(font);
 	input_dungeonWidth.setInt(32);
 
 	InputField input_dungeonHeight(0, 0, 70, 30, &style);
 	input_dungeonHeight.setPlaceholder("Height");
-	input_dungeonHeight.setCharacterSize(16);
-	input_dungeonHeight.setFont(font);
 	input_dungeonHeight.setInt(32);
 
 	HorizontalLayout hLayout_inputDungeonSize(0, 0, 0, 30);
@@ -87,16 +88,16 @@ int main()
 	hLayout_inputDungeonSize.add(input_dungeonWidth);
 	hLayout_inputDungeonSize.add(input_dungeonHeight);
 
+	Label lbl_roomMinSize(0, 0, 0, 20, &style);
+	lbl_roomMinSize.setText("Room Min Size");
+	lbl_roomMinSize.setAlignement(ALIGN_RIGHT);
+
 	InputField input_roomMinWidth(0, 0, 70, 30, &style);
 	input_roomMinWidth.setPlaceholder("min W");
-	input_roomMinWidth.setCharacterSize(16);
-	input_roomMinWidth.setFont(font);
 	input_roomMinWidth.setInt(3);
 
 	InputField input_roomMinHeight(0, 0, 70, 30, &style);
 	input_roomMinHeight.setPlaceholder("min H");
-	input_roomMinHeight.setCharacterSize(16);
-	input_roomMinHeight.setFont(font);
 	input_roomMinHeight.setInt(3);
 
 	HorizontalLayout hLayout_inputRoomMinSize(0, 0, 0, 30);
@@ -104,16 +105,16 @@ int main()
 	hLayout_inputRoomMinSize.add(input_roomMinWidth);
 	hLayout_inputRoomMinSize.add(input_roomMinHeight);
 
+	Label lbl_roomMaxSize(0, 0, 0, 20, &style);
+	lbl_roomMaxSize.setText("Room Max Size");
+	lbl_roomMaxSize.setAlignement(ALIGN_RIGHT);
+
 	InputField input_roomMaxWidth(0, 0, 70, 30, &style);
 	input_roomMaxWidth.setPlaceholder("min W");
-	input_roomMaxWidth.setCharacterSize(16);
-	input_roomMaxWidth.setFont(font);
 	input_roomMaxWidth.setInt(15);
 
 	InputField input_roomMaxHeight(0, 0, 70, 30, &style);
 	input_roomMaxHeight.setPlaceholder("min H");
-	input_roomMaxHeight.setCharacterSize(16);
-	input_roomMaxHeight.setFont(font);
 	input_roomMaxHeight.setInt(15);
 
 	HorizontalLayout hLayout_inputRoomMaxSize(0, 0, 0, 30);
@@ -127,8 +128,11 @@ int main()
 	vLayout.setPivot(sf::Vector2f(1, 0));
 	vLayout.setSpacing(10);
 	vLayout.setPaddings(10, 10, 10, 10);
+	vLayout.add(lbl_dungeonSize);
 	vLayout.add(hLayout_inputDungeonSize);
+	vLayout.add(lbl_roomMinSize);
 	vLayout.add(hLayout_inputRoomMinSize);
+	vLayout.add(lbl_roomMaxSize);
 	vLayout.add(hLayout_inputRoomMaxSize);
 	vLayout.add(btn_Generate);
 	vLayout.add(btn_showParents);
@@ -138,6 +142,8 @@ int main()
 
 	Layout root(0, 0, Window::GetWidth(), Window::GetHeight());
 	root.add(vLayout);
+	root.add(lbl_fps);
+	root.add(lbl_generation);
 	Window::SetLayout(root);
 
 
@@ -146,8 +152,6 @@ int main()
 
 	sf::RectangleShape rect(sf::Vector2f(grid.getCellWidth(), grid.getCellHeight()));
 	rect.setFillColor(lightGrey);
-
-
 
 	// render dungeon in SFML
 	DungeonRenderer renderer(&dungeon, &grid);
@@ -164,8 +168,8 @@ int main()
 			Window::Close();
 		}
 
-		fpsText.setString("FPS: " + floatToStr(Time::GetFps(), 0));
-		generationText.setString("Nbr generation: " + floatToStr(nbGeneration, 0));
+		lbl_fps.setText("FPS: " + floatToStr(Time::GetFps(), 0));
+		lbl_generation.setText("Nbr generation: " + floatToStr(nbGeneration, 0));
 
 		if (btn_Generate.click() || Input::GetKeyDown(sf::Keyboard::G))
 		{
@@ -220,10 +224,8 @@ int main()
 		// ///////////////////////// START DRAW
 		Window::Clear();
 
-		Window::Draw(fpsText);
 		Window::Draw();
 
-		Window::Draw(generationText);
 		Window::Draw(grid);
 		Window::Draw(rect);
 		Window::Draw(renderer);

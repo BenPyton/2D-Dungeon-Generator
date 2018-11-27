@@ -39,3 +39,19 @@ UIStateStyle & UIStyle::operator[](UIState state)
 {
 	return m_styles[state];
 }
+
+void UIStyle::setFont(sf::Font & font, int charSize)
+{
+	m_font = &font;
+	m_characterSize = charSize;
+}
+
+const sf::Font * UIStyle::getFont()
+{
+	return m_font;
+}
+
+int UIStyle::getCharacterSize()
+{
+	return m_characterSize;
+}

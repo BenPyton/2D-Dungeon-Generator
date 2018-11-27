@@ -73,7 +73,7 @@ void Button::_updateTransform()
 	sf::FloatRect textRect = m_text->getLocalBounds();
 	float posX = m_rect->getPosition().x + (int)(m_rect->getSize().x) / 2 - (int)(textRect.width + textRect.left) / 2;
 	float posY = m_rect->getPosition().y + (int)(m_rect->getSize().y) / 2 - m_text->getCharacterSize() * 0.6f;
-	m_text->setPosition(posX, posY);
+	m_text->setPosition((int)posX, (int)posY);
 }
 
 void Button::_updateStyle()

@@ -12,6 +12,7 @@
 #include "Core/VerticalLayout.h"
 #include "Core/HorizontalLayout.h"
 #include "Core/View.h"
+#include "Core/Label.h"
 #include "Core/Button.h"
 #include "Core/InputField.h"
 #include "Core/Toggle.h"

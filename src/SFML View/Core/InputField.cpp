@@ -114,73 +114,6 @@ void InputField::setDouble(double value)
 	_updateText();
 }
 
-//void InputField::update()
-//{
-//	if (m_enabled == false)
-//	{
-//		m_state = UIState::UI_DISABLED;
-//	}
-//	else if (m_state == UIState::UI_FOCUSED)
-//	{
-//		// lost focus
-//		if ((!hovered(Input::GetMousePosition()) && Input::GetMouseButtonDown(sf::Mouse::Left))
-//			|| Input::GetKeyDown(sf::Keyboard::Enter))
-//		{
-//			m_timer = 0;
-//			m_state = UIState::UI_NORMAL;
-//			// display placeholder if entered string is empty
-//			if (m_str.isEmpty())
-//			{
-//				m_text->setString(m_placeholder);
-//			}
-//		}
-//	}
-//	else
-//	{
-//		if (click())
-//		{
-//			m_state = UIState::UI_FOCUSED;
-//		}
-//		else if(hovered(Input::GetMousePosition()))
-//		{
-//			m_state = UIState::UI_HOVERED;
-//		}
-//		else
-//		{
-//			m_state = UIState::UI_NORMAL;
-//		}
-//	}
-//
-//	m_rect->setFillColor((*m_style)[m_state].bgCol);
-//	m_rect->setOutlineColor((*m_style)[m_state].outCol);
-//	m_text->setFillColor((*m_style)[m_state].fgCol);
-//
-//	if (m_state == UIState::UI_FOCUSED)
-//	{
-//		// Get text entered during the frame
-//		m_timer += Time::GetDeltaTime();
-//		sf::String s = Input::GetEnteredText();
-//		for (int i = 0; i < s.getSize(); i++)
-//		{
-//			if (s[i] == 8) // backspace handler
-//			{
-//				if (m_str.getSize() > 0) // if empty we don't do anything
-//				{
-//					m_str.erase(m_str.getSize() - 1);
-//				}
-//			}
-//			else
-//			{
-//				if (m_maxChar <= 0 || (m_maxChar > 0 && m_str.getSize() < m_maxChar))
-//				{
-//					m_str += s[i];
-//				}
-//			}
-//		}
-//	}
-//	_updateText();
-//}
-
 
 void InputField::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
@@ -277,11 +210,13 @@ void InputField::_updateTransform()
 	//sf::FloatRect textRect = m_text.getLocalBounds();
 	float posX = m_rect->getPosition().x + 10;
 	float posY = m_rect->getPosition().y + m_rect->getSize().y / 2 - m_text->getCharacterSize() * 0.6f;
-	m_text->setPosition(posX, posY);
+	m_text->setPosition((int)posX, (int)posY);
 }
 
 void InputField::_updateStyle()
 {
 	AbstractUI::_updateStyle();
 	m_text->setFillColor((*m_style)[m_state].fgCol);
+	m_text->setFont(*m_style->getFont());
+	m_text->setCharacterSize(m_style->getCharacterSize());
 }

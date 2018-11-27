@@ -90,6 +90,9 @@
     <ClInclude Include="Core\HorizontalLayout.h">
       <Filter>Fichiers d%27en-tête\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Label.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -153,6 +156,9 @@
       <Filter>Fichiers sources\Core</Filter>
     </ClCompile>
     <ClCompile Include="Core\HorizontalLayout.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Label.cpp">
       <Filter>Fichiers sources\Core</Filter>
     </ClCompile>
   </ItemGroup>

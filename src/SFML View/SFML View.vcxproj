@@ -415,6 +415,7 @@
     <ClInclude Include="Core\HorizontalLayout.h" />
     <ClInclude Include="Core\Input.h" />
     <ClInclude Include="Core\InputField.h" />
+    <ClInclude Include="Core\Label.h" />
     <ClInclude Include="Core\Layout.h" />
     <ClInclude Include="Core\Random.h" />
     <ClInclude Include="Core\Time.h" />
@@ -438,6 +439,7 @@
     <ClCompile Include="Core\HorizontalLayout.cpp" />
     <ClCompile Include="Core\Input.cpp" />
     <ClCompile Include="Core\InputField.cpp" />
+    <ClCompile Include="Core\Label.cpp" />
     <ClCompile Include="Core\Layout.cpp" />
     <ClCompile Include="Core\Random.cpp" />
     <ClCompile Include="Core\Time.cpp" />

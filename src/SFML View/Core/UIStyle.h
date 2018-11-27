@@ -32,6 +32,8 @@ class UIStyle
 {
 private:
 	UIStateStyle m_styles[UIState::UI_NB_STATE];
+	sf::Font* m_font = nullptr;
+	int m_characterSize = 0;
 
 public:
 	UIStyle();
@@ -40,6 +42,10 @@ public:
 	void mapStyle(UIState state, sf::Color foregroundColor, sf::Color backgroundColor, sf::Color outlineColor, float outlineThickness);
 
 	UIStateStyle& operator[](UIState state);
+
+	void setFont(sf::Font& font, int charSize);
+	const sf::Font* getFont();
+	int getCharacterSize();
 
 	static UIStyle Default;
 };
