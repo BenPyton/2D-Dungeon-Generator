@@ -28,7 +28,7 @@ enum LIBDUNGEON_API TileType
 	Out,
 	Door,
 	LockedDoor,
-	key,
+	Key,
 	Chest,
 	Enemy
 };
@@ -70,14 +70,11 @@ private:
 	void _GenerateRooms(int iteration);
 	void _SplitRoomRecursive(int _iteration, Room* _r, bool _vertical);
 	void _FillArray();
-
 	void _ResetArray();
-
 	void _ListNeighbors(Room* r);
-
 	bool _GetEmptyCell(int& x, int& y, Room* r = nullptr);
-
 	void _SetArraySize(uint64_t _width, uint64_t _height);
+	void _LockDoors(Room* r);
 };
 
 // Functions to wrap in a Room.cs for Unity

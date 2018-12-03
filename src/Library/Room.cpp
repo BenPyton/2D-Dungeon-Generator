@@ -11,6 +11,7 @@
 
 #include "DG/Room.h"
 #include <cassert>
+#include <queue>
 
 Room::Room(int x, int y, int w, int h)
 	: m_x(x), m_y(y), m_w(w), m_h(h)
@@ -70,6 +71,86 @@ bool Room::isIn(int x, int y)
 		&& y >= m_y && y < m_y + m_h;
 }
 
+// https://www.geeksforgeeks.org/bidirectional-search/
+bool Room::pathExists(Room* _from, Room* _to)
+{
+	bool pathExists = false;
+	if(_from->m_locked || _to->m_locked)
+		return pathExists;
+
+	// Bidirectional BFS initialization
+	vector<Room*> markedf, markedt;
+	queue<Room*> qf, qt;
+	qf.push(_from);
+	qt.push(_to);
+	markedf.push_back(_from);
+	markedt.push_back(_to);
+	
+	Room* r = nullptr; // temp room from processing
+	Room* next = nullptr; // tmp room for processsing
+
+	// Bidirectional BFS
+	while (!pathExists && !qf.empty() && !qt.empty())
+	{
+
+		// BFS from _from
+		r = qf.front();
+		qf.pop();
+		// for each neighbor, if not locked or marked, add it to queue and mark it
+		for(vector<Room*>::iterator it = r->m_links.begin(); it != r->m_links.end(); ++it)
+		{
+			next = *it;
+			if(!next->m_locked && find(markedf.begin(), markedf.end(), next) == markedf.end())
+			{
+				qf.push(next);
+				markedf.push_back(next);
+			}
+		}
+
+		// Check for intersection between the two BFS
+		for (vector<Room*>::iterator it = markedf.begin(); it != markedf.end(); ++it)
+		{
+			if (find(markedt.begin(), markedt.end(), *it) != markedt.end())
+			{
+				pathExists = true;
+			}
+		}
+
+		// BFS from _to
+		r = qt.front();
+		qt.pop();
+		// for each neighbor, if not locked or marked, add it to queue and mark it
+		for (vector<Room*>::iterator it = r->m_links.begin(); it != r->m_links.end(); ++it)
+		{
+			next = *it;
+			if (!next->m_locked && find(markedt.begin(), markedt.end(), next) == markedt.end())
+			{
+				qf.push(next);
+				markedt.push_back(next);
+			}
+		}
+
+
+		// Check for intersection between the two BFS
+		for (vector<Room*>::iterator it = markedf.begin(); it != markedf.end(); ++it)
+		{
+			if (find(markedt.begin(), markedt.end(), *it) != markedt.end())
+			{
+				pathExists = true;
+			}
+		}
+
+
+	}
+	// tant que la file est non vide
+	// 	s = f.defiler();
+	// afficher(s);
+	// pour tout voisin t de s dans G
+	// 	si t non marqué
+	// 		f.enfiler(t);
+	// 		marquer(t);
+	return pathExists;
+}
 
 
 #ifdef _UNITY

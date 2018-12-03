@@ -50,17 +50,6 @@ Room * Dungeon::getRoomAt(uint64_t x, uint64_t y)
 	return room;
 }
 
-void Dungeon::_SetArraySize(uint64_t _width, uint64_t _height)
-{
-	_ClearArray();
-
-	m_array = (short**)malloc(_height * sizeof(short*));
-	for (int i = 0; i < _height; i++)
-	{
-		m_array[i] = (short*)malloc(_width * sizeof(short));
-		memset(m_array[i], 0, _width * sizeof(short));
-	}
-}
 
 void Dungeon::generate()
 {
@@ -411,32 +400,31 @@ void Dungeon::_FillArray()
 			m_array[randY][randX] = TileType::Out;
 		}
 
-		// Add chests
-		//if (m_params.maxChest > 0)
-		//{
-		//	int nbChestLeft = m_params.maxChest - 1;
-		//	for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
-		//	{
-		//		Room* room = *it;
+		// Add locked rooms
+		Room* lockedRoom = nullptr;
+		Room* keyRoom = nullptr;
+		for (int i = 0; i < m_params.nbLockedRoom; i++)
+		{
+			do {
+				lockedRoom = m_roomList[_RandRange(0, m_roomList.size())];
+			} while (lockedRoom->getId() == inputRoom->getId() || lockedRoom->isLocked());
 
-		//		if (room != inputRoom && room != outRoom)
-		//		{
-		//			int placeChest = _RandRange(0, 2); // 50% chance to place chest in the room
-		//			int n = _RandRange(0, min(nbChestLeft, m_params.maxChestPerRoom)) + 1; // can place up to max chests in the room
-		//			if (placeChest == 0)
-		//			{
-		//				for (int i = 0; i < n; i++)
-		//				{
-		//					if (_GetEmptyCell(room, randX, randY))
-		//					{
-		//						m_array[randY][randX] = TileType::Chest;
-		//						nbChestLeft--;
-		//					}
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
+			printf("In room: %d | Locked room: %d", inputRoom->getId(), lockedRoom->getId());
+			lockedRoom->setLocked(true);
+			_LockDoors(lockedRoom);
+
+			// Place a key to unlock the room
+			do {
+				keyRoom = m_roomList[_RandRange(0, m_roomList.size())];
+			} while (!Room::pathExists(inputRoom, keyRoom));
+
+			if (_GetEmptyCell(randX, randY, keyRoom))
+			{
+				m_array[randY][randX] = TileType::Key;
+			}
+		}
+
+
 
 		// Add chests
 		for (int i = 0; i < m_params.maxChest; i++)
@@ -456,32 +444,7 @@ void Dungeon::_FillArray()
 			}
 		}
 
-		// Add Enemies
-		//if (m_params.maxEnemy > 0)
-		//{
-		//	int nbEnemyLeft = m_params.maxEnemy - 1;
-		//	for (vector<Room*>::iterator it = m_roomList.begin(); it != m_roomList.end(); ++it)
-		//	{
-		//		Room* room = *it;
-
-		//		if (room != inputRoom && room != outRoom)
-		//		{
-		//			int placeChest = _RandRange(0, 2); // 50% chance to place enemies in the room
-		//			int n = _RandRange(0, min(nbEnemyLeft, m_params.maxEnemyPerRoom)) + 1; // can place up to max enemies in the room
-		//			if (placeChest == 0)
-		//			{
-		//				for (int i = 0; i < n; i++)
-		//				{
-		//					if (_GetEmptyCell(randX, randY, room))
-		//					{
-		//						m_array[randY][randX] = TileType::Enemy;
-		//						nbEnemyLeft--;
-		//					}
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
+		
 	}
 }
 
@@ -571,6 +534,50 @@ bool Dungeon::_GetEmptyCell(int & x, int & y, Room * r)
 }
 
 
+void Dungeon::_SetArraySize(uint64_t _width, uint64_t _height)
+{
+	_ClearArray();
+
+	m_array = (short**)malloc(_height * sizeof(short*));
+	for (int i = 0; i < _height; i++)
+	{
+		m_array[i] = (short*)malloc(_width * sizeof(short));
+		memset(m_array[i], 0, _width * sizeof(short));
+	}
+}
+
+void Dungeon::_LockDoors(Room * r)
+{
+	if (nullptr != r)
+	{
+		// Horizontal walls
+		for (int x = 0; x < r->getWidth(); x++)
+		{
+			if (m_array[r->getY()][r->getX() + x] == TileType::Door)
+			{
+				m_array[r->getY()][r->getX() + x] = TileType::LockedDoor;
+			}
+			if (r->getY() + r->getHeight() < m_params.height
+				&& m_array[r->getY() + r->getHeight()][r->getX() + x] == TileType::Door)
+			{
+				m_array[r->getY() + r->getHeight()][r->getX() + x] = TileType::LockedDoor;
+			}
+		}
+		// Vertical walls
+		for (int y = 0; y < r->getHeight(); y++)
+		{
+			if (m_array[r->getY() + y][r->getX()] == TileType::Door)
+			{
+				m_array[r->getY() + y][r->getX()] = TileType::LockedDoor;
+			}
+			if (r->getX() + r->getWidth() < m_params.width
+				&& m_array[r->getY() + y][r->getX() + r->getWidth()] == TileType::Door)
+			{
+				m_array[r->getY() + y][r->getX() + r->getWidth()] = TileType::LockedDoor;
+			}
+		}
+	}
+}
 
 // Functions to wrap in a Room.cs for Unity
 #ifdef _UNITY

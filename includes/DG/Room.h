@@ -31,6 +31,8 @@ private:
 	vector<Room*> m_neighbors;
 	vector<Room*> m_links;
 
+	bool m_locked = false;
+
 public:
 	Room(int x = 0, int y = 0, int w = 1, int h = 1);
 	Room(const Room& _r);
@@ -44,6 +46,7 @@ public:
 	inline void setHeight(int h) { m_h = h; }
 	inline void setSize(int w, int h) { m_w = w; m_h = h; }
 	inline void setParent(Room* parent) { m_pParent = parent; }
+	inline void setLocked(bool _locked) { m_locked = _locked; }
 
 	inline uint64_t getId() { return m_id; }
 	inline int getX() { return m_x; }
@@ -51,6 +54,7 @@ public:
 	inline int getWidth() { return m_w; }
 	inline int getHeight() { return m_h; }
 	inline Room* getParent() { return m_pParent; }
+	inline bool isLocked() { return m_locked; }
 
 	inline void addNeighbor(Room* room) { m_neighbors.push_back(room); }
 	Room* getNeighbor(int index);
@@ -61,6 +65,8 @@ public:
 	inline size_t getLinkCount() { return m_links.size(); }
 
 	bool isIn(int x, int y);
+
+	static bool pathExists(Room* _from, Room* _to);
 
 };
 

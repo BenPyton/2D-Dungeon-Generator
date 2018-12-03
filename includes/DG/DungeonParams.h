@@ -32,6 +32,7 @@ extern "C"
 		uint8_t maxChestPerRoom;
 		uint8_t maxEnemy;
 		uint8_t maxEnemyPerRoom;
+		uint8_t nbLockedRoom;
 		uint64_t seed;
 		bool randomSeed;
 
@@ -50,6 +51,7 @@ extern "C"
 			uint8_t _maxChestPerRoom,
 			uint8_t _maxEnemy,
 			uint8_t _maxEnemyPerRoom,
+			uint8_t _nbLockedRoom,
 			uint64_t _seed,
 			bool _randomSeed
 		);
@@ -70,6 +72,7 @@ extern "C"
 		uint8_t _maxChestPerRoom,
 		uint8_t _maxEnemy,
 		uint8_t _maxEnemyPerRoom,
+		uint8_t _nbLockedRoom,
 		uint64_t _seed,
 		bool _randomSeed
 	);

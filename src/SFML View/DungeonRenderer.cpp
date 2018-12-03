@@ -128,6 +128,9 @@ void DungeonRenderer::generate()
 				case TileType::LockedDoor:
 					rect.setFillColor(orange);
 					break;
+				case TileType::Key:
+					rect.setFillColor(sf::Color::Cyan);
+					break;
 				case TileType::Enemy:
 					rect.setFillColor(sf::Color::Red);
 					break;
