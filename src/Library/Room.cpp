@@ -211,6 +211,11 @@ void Lib_Room_setParent(Room* _this, Room* _parent)
 	_this->setParent(_parent);
 }
 
+LIBDUNGEON_API void Lib_Room_setLocked(Room * _this, bool _locked)
+{
+	return _this->setLocked(_locked);
+}
+
 
 uint64_t Lib_Room_getId(Room* _this)
 {
@@ -240,6 +245,11 @@ int Lib_Room_getHeight(Room* _this)
 Room* Lib_Room_getParent(Room* _this)
 {
 	return _this->getParent();
+}
+
+LIBDUNGEON_API bool Lib_Room_isLocked(Room * _this)
+{
+	return _this->isLocked();
 }
 
 
@@ -278,6 +288,11 @@ size_t Lib_Room_getLinkCount(Room* _this)
 bool Lib_Room_isIn(Room* _this, int _x, int _y)
 {
 	return _this->isIn(_x, _y);
+}
+
+LIBDUNGEON_API bool Lib_Room_pathExists(Room * _from, Room * _to)
+{
+	return Room::pathExists(_from, _to);
 }
 
 

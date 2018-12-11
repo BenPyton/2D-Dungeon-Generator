@@ -86,6 +86,7 @@ extern "C"
 	LIBDUNGEON_API void Lib_Room_setHeight(Room* _this, int h);
 	LIBDUNGEON_API void Lib_Room_setSize(Room* _this, int w, int h);
 	LIBDUNGEON_API void Lib_Room_setParent(Room* _this, Room* parent);
+	LIBDUNGEON_API void Lib_Room_setLocked(Room* _this, bool _locked);
 
 	LIBDUNGEON_API uint64_t Lib_Room_getId(Room* _this);
 	LIBDUNGEON_API int Lib_Room_getX(Room* _this);
@@ -93,6 +94,7 @@ extern "C"
 	LIBDUNGEON_API int Lib_Room_getWidth(Room* _this);
 	LIBDUNGEON_API int Lib_Room_getHeight(Room* _this);
 	LIBDUNGEON_API Room* Lib_Room_getParent(Room* _this);
+	LIBDUNGEON_API bool Lib_Room_isLocked(Room* _this);
 
 	LIBDUNGEON_API void Lib_Room_addNeighbor(Room* _this, Room* room);
 	LIBDUNGEON_API Room* Lib_Room_getNeighbor(Room* _this, int index);
@@ -103,6 +105,8 @@ extern "C"
 	LIBDUNGEON_API size_t Lib_Room_getLinkCount(Room* _this);
 
 	LIBDUNGEON_API bool Lib_Room_isIn(Room* _this, int x, int y);
+
+	LIBDUNGEON_API bool Lib_Room_pathExists(Room* _from, Room* _to);
 }
 #endif
 

@@ -33,50 +33,12 @@ extern "C"
 		uint8_t maxEnemy;
 		uint8_t maxEnemyPerRoom;
 		uint8_t nbLockedRoom;
-		uint64_t seed;
 		bool randomSeed;
+		uint64_t seed;
 
 		static const DungeonParams basic;
 		static const DungeonParams zero;
-
-		DungeonParams(
-			uint64_t _width,
-			uint64_t _height,
-			uint64_t _roomMinWidth,
-			uint64_t _roomMinHeight,
-			uint64_t _roomMaxWidth,
-			uint64_t _roomMaxHeight,
-			uint8_t _iteration,
-			uint8_t _maxChest,
-			uint8_t _maxChestPerRoom,
-			uint8_t _maxEnemy,
-			uint8_t _maxEnemyPerRoom,
-			uint8_t _nbLockedRoom,
-			uint64_t _seed,
-			bool _randomSeed
-		);
 	};
-
-
-	// Functions to wrap in a Room.cs for Unity
-#ifdef _UNITY
-	LIBDUNGEON_API DungeonParams Lib_DungeonParams_constructor(
-		uint64_t _width,
-		uint64_t _height,
-		uint64_t _roomMinWidth,
-		uint64_t _roomMinHeight,
-		uint64_t _roomMaxWidth,
-		uint64_t _roomMaxHeight,
-		uint8_t _iteration,
-		uint8_t _maxChest,
-		uint8_t _maxChestPerRoom,
-		uint8_t _maxEnemy,
-		uint8_t _maxEnemyPerRoom,
-		uint8_t _nbLockedRoom,
-		uint64_t _seed,
-		bool _randomSeed
-	);
-#endif
 }
 
 #endif // _DUNGEONPARAMS_H
