@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1050727944147608}
+  m_IsPrefabAsset: 1
+--- !u!1 &1050727944147608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4703587559138874}
+  - component: {fileID: 114005251759843618}
+  m_Layer: 0
+  m_Name: '@DungeonGenerator'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4703587559138874
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1050727944147608}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.64, y: 1, z: -3.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114005251759843618
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1050727944147608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7380a0e30ab6694d8d66bb6166c35a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dungeonSize: {x: 16, y: 16}
+  roomMinSize: {x: 3, y: 3}
+  roomMaxSize: {x: 8, y: 8}
+  nbMaxEnemies: 20
+  nbMaxChest: 5
+  nbLockedRoom: 1
+  seed: 0
+  randomSeed: 1
+  prefabEmpty: {fileID: 1125795269531774, guid: b5b751b4d1f670141a85323cb5525198,
+    type: 2}
+  prefabWallSimple: {fileID: 1322919219591020, guid: 96de2f2917d9fd04985fb61c98f4b1e5,
+    type: 2}
+  prefabWallCross: {fileID: 1874584145073528, guid: 580c9e5c14510794c9a94d1b694c9e82,
+    type: 2}
+  prefabWallCorner: {fileID: 1065420009150028, guid: 11660166996b5c24c80ff36be3983df1,
+    type: 2}
+  prefabWallT: {fileID: 1799270351783164, guid: fae38ccfa6ba61445a507a169fbd770a,
+    type: 2}
+  prefabStairsDown: {fileID: 1063008977958420, guid: 07cb5a4b657292e40b3de4e2a677450a,
+    type: 2}
+  prefabStairsUp: {fileID: 1698100561133000, guid: 052592e7badf42b4f8c6714b397db96b,
+    type: 2}
+  prefabDoor: {fileID: 1752037004488056, guid: 9f2bef49c7c9eea4c8607c69253db49b, type: 2}
+  prefabChest: {fileID: 1901439949169314, guid: 144f48e8d6420064d93f53c42a260e6a,
+    type: 2}
+  prefabEnemy: {fileID: 1097217281433370, guid: ea126c8159282ee4c9c54b72e3308990,
+    type: 2}
+  prefabKey: {fileID: 0}
+  tileSize: 3
+  onEndGenerate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  entrancePosition: {x: 0, y: 0, z: 0}
