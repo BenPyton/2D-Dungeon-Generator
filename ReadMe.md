@@ -2,8 +2,8 @@
 
 <b>Author :</b> PELLETIER Benoît
 
-<img src="images/screen_sfml_view.png?raw=true" width="400"></img>
-<img src="images/screen_unity_plugin.png?raw=true" width="400"></img>
+<img src="images/screen_sfml_view.jpg?raw=true" width="400"></img>
+<img src="images/screen_unity_plugin.jpg?raw=true" width="440"></img>
 
 ### Description :
 2D Dungeon Generator is a C++ library I made for a school project. <br>
