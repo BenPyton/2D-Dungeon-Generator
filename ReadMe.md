@@ -1,7 +1,7 @@
 # 2D Dungeon Generator
 
 ```diff
-- WARNING: This project is under development, some features may not work yet.
++ There will be a Unity project sample soon !
 ```
 
 <b>Author :</b> PELLETIER Benoit
@@ -14,6 +14,13 @@ Please install one or both of VC++15 SFML from [here](https://www.sfml-dev.org/d
 - 64 bits: "$(SolutionDir)/../SFML-2.5.1-x64"
 
 If you have issues with compilation, check the version of windows' SDK in project properties. <br>
+
+### Features :
+- Create easily a dungeon with few lines of code,
+- No restriction on dungeon size : It can be a square, or a rectangle from a width of 0 to 64000 !
+- You can define number of enemies and chests in the dungeon,
+- Rooms can be locked and keys are automatically generated with a valid path from the entrance to allow player to pick them up,
+- A Unity plugin wraps the library to allow you tu use it in Unity as easily as the C++ library.
 
 ### Use :
 ```cpp
