@@ -1,19 +1,16 @@
 # 2D Dungeon Generator
 
-```diff
-+ There will be a Unity project sample soon !
-```
+<b>Author :</b> PELLETIER Benoît
 
-<b>Author :</b> PELLETIER Benoit
+<img src="images/screen_sfml_view.png?raw=true" width="400"></img>
+<img src="images/screen_unity_plugin.png?raw=true" width="400"></img>
 
 ### Description :
-2D Dungeon Generator with BSP (Binary Space Partitionning) algorithm. <br>
-Use Visual Studio 2015 or newer with this project. <br>
-Please install one or both of VC++15 SFML from [here](https://www.sfml-dev.org/download/sfml/2.5.1/index-fr.php) at:
-- 32 bits: "$(SolutionDir)/../SFML-2.5.1"
-- 64 bits: "$(SolutionDir)/../SFML-2.5.1-x64"
-
-If you have issues with compilation, check the version of windows' SDK in project properties. <br>
+2D Dungeon Generator is a C++ library I made for a school project. <br>
+The generation use BSP (Binary Space Partitionning) algorithm. 
+The placement of enemies and chests are totally random, and key placement use bidirectional BFS (Breadth First Search) path finding algorithm.<br>
+A SFML view project is provided to have a visual and a simple interface of the generator, allowing to play with it.<br>
+A Unity plugin is present in the Unity sample allowing to generate dungeon also in Unity.
 
 ### Features :
 - Create easily a dungeon with few lines of code,
@@ -22,7 +19,23 @@ If you have issues with compilation, check the version of windows' SDK in projec
 - Rooms can be locked and keys are automatically generated with a valid path from the entrance to allow player to pick them up,
 - A Unity plugin wraps the library to allow you tu use it in Unity as easily as the C++ library.
 
-### Use :
+### Installation :
+To use the library:
+- Link your project to the dll if you want to use the shared library;
+- Link to the lib and add the preprocessor LIBDUNGEON_STATIC if you want to use the static library.
+
+To run the source of SFML view, or compile the library source, use Visual Studio 2015 or newer with this project. <br>
+Please install one or both of VC++15 SFML from [here](https://www.sfml-dev.org/download/sfml/2.5.1/index-fr.php) at path:
+- 32 bits: "$(SolutionDir)/../SFML-2.5.1"
+- 64 bits: "$(SolutionDir)/../SFML-2.5.1-x64"
+
+If you have any issues with compilation, first check the version of windows' SDK in project properties. <br>
+
+To use the Unity plugin, copy the folder "Assets/Plugins/DungeonGenerator" from the sample project into your project "Assets/Plugins" folder.
+You can use the DungeonGenerator component directly without coding, or code yourself a C# script using the library like in C++. 
+
+
+### C++ Library Use :
 ```cpp
 #include <DG/LibDungeon.h>
 

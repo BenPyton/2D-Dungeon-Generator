@@ -77,7 +77,7 @@ private:
 	void _LockDoors(Room* r);
 };
 
-// Functions to wrap in a Room.cs for Unity
+// Functions to wrap in a Dungeon.cs for Unity
 #ifdef _UNITY
 extern "C"
 {

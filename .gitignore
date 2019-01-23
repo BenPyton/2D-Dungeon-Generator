@@ -1,6 +1,13 @@
 .vs/
+.vscode/
+*.code-workspace
 
 bin/
 
 tmp/
 lib/
+
+UnitySample/*
+!UnitySample/Assets/*
+!UnitySample/ProjectSettings/*
+!UnitySample/Packages/*

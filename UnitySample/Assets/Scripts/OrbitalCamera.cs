@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class OrbitalCamera : MonoBehaviour {
     enum UpdateMode
@@ -12,7 +13,6 @@ public class OrbitalCamera : MonoBehaviour {
 
     [SerializeField] Transform target;
     [SerializeField] Vector3 lookingOffset;
-    //[SerializeField] Vector3 cameraOffset;
     [SerializeField] bool shouldCollide = true;
     [SerializeField] float collisionRadius = 0.4f;
     [SerializeField] UpdateMode mode = UpdateMode.Update;
@@ -23,10 +23,12 @@ public class OrbitalCamera : MonoBehaviour {
     [SerializeField] float maxAngleDown = 85;
     [SerializeField] bool smoothRotation = false;
     [SerializeField] float rotationDamp = 0.2f;
+    [SerializeField] Vector2 startAngle = Vector2.zero;
     [Header("Zoom")]
     [SerializeField] float scrollSpeed = 0.5f;
     [SerializeField] float distanceMin = 5.0f;
     [SerializeField] float distanceMax = 5.0f;
+    [SerializeField] float startDistance = 5.0f;
     [SerializeField] bool smoothZoom = true;
     [SerializeField] float zoomDamp = 0.2f;
 
@@ -53,12 +55,11 @@ public class OrbitalCamera : MonoBehaviour {
     {
         rotation = Quaternion.identity;
         position = Vector3.zero;
-        Cursor.lockState = CursorLockMode.Locked;
-        distanceTarget = 0.5f * (distanceMin + distanceMax);
+        distanceTarget = startDistance;
         distanceCurrent = distanceTarget;
-        angleXTarget = rotation.eulerAngles.x;
+        angleXTarget = startAngle.x;
         angleXCurrent = angleXTarget;
-        angleYTarget = rotation.eulerAngles.y;
+        angleYTarget = startAngle.y;
         angleYCurrent = angleYTarget;
     }
 
@@ -95,8 +96,16 @@ public class OrbitalCamera : MonoBehaviour {
 
     protected virtual void UpdateInputs()
     {
-        deltaX = Input.GetAxis("Mouse Y");
-        deltaY = Input.GetAxis("Mouse X");
+        if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject())
+        {
+            deltaX = Input.GetAxis("Mouse Y");
+            deltaY = Input.GetAxis("Mouse X");
+        }
+        else
+        {
+            deltaX = 0.0f;
+            deltaY = 0.0f;
+        }
     }
 
     private void UpdateCamera ()
@@ -114,7 +123,6 @@ public class OrbitalCamera : MonoBehaviour {
             rot.SetFromToRotation(dirPrev, dirNew);
 
             angleYTarget += rot.eulerAngles.y;
-            //rotation.eulerAngles = new Vector3(rotation.eulerAngles.x, rotation.eulerAngles.y + rot.eulerAngles.y, rotation.eulerAngles.z);
         }
         else
         {
@@ -147,7 +155,7 @@ public class OrbitalCamera : MonoBehaviour {
         Vector3 lookDirection = rotation * Vector3.forward;
 
         // Zoom
-        distanceTarget -= scrollSpeed * Input.mouseScrollDelta.y;
+        distanceTarget -= scrollSpeed * Input.mouseScrollDelta.y * (!EventSystem.current.IsPointerOverGameObject() ? 1 : 0);
         distanceTarget = Mathf.Clamp(distanceTarget, distanceMin, distanceMax);
         if(smoothZoom)
         {

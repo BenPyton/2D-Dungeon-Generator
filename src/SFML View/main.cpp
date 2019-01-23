@@ -191,7 +191,6 @@ int main()
 
 		if (btn_Generate.click() || Input::GetKeyDown(sf::Keyboard::G))
 		{
-			//cout << "Click !" << endl; 
 			nbGeneration++;
 
 			params.width = input_dungeonWidth.getInt();
@@ -232,7 +231,6 @@ int main()
 		if (Input::GetMouseButtonDown(sf::Mouse::Left))
 		{
 			sf::Vector2f mousePos = Input::GetMousePosition();
-			//cout << "Mouse position: (" << mousePos.x << "," << mousePos.y << ")" << endl;
 		}
 
 		sf::Vector2i cell = grid.screenToGrid(Input::GetMousePosition());

@@ -21,11 +21,6 @@ public class MinimapCamera : MonoBehaviour {
 	void Start () {
         DungeonGenerator.instance.onEndGenerate.AddListener(() => ResizeCamera());
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private void ResizeCamera()
     {
@@ -34,6 +29,5 @@ public class MinimapCamera : MonoBehaviour {
 
         transform.position = new Vector3((width - DungeonGenerator.instance.tileSize)/2.0f, 200, (height - DungeonGenerator.instance.tileSize )/ 2.0f);
         cam.orthographicSize = Mathf.Max(width, height) / 2.0f;
-        Debug.Log("Size: " + height);
     }
 }
